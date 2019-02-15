@@ -65,9 +65,18 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreatePublisher func(childComplexity int, input NewPublisher) int
 		CreateUser      func(childComplexity int, input NewUser) int
+		CreateAuthor    func(childComplexity int, input NewAuthor) int
+		CreatePublisher func(childComplexity int, input NewPublisher) int
+		CreateRental    func(childComplexity int, input NewRental) int
+		CreateBook      func(childComplexity int, input NewBook) int
+		CreateLocation  func(childComplexity int, input *NewLocation) int
 		DeleteUser      func(childComplexity int, user_id string) int
+		DeleteAuthor    func(childComplexity int, author_id string) int
+		DeletePublisher func(childComplexity int, publisher_id string) int
+		DeleteRental    func(childComplexity int, rental_id string) int
+		DeleteBook      func(childComplexity int, book_id string) int
+		DeleteLocation  func(childComplexity int, location_id string) int
 	}
 
 	Publisher struct {
@@ -77,7 +86,17 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Users      func(childComplexity int) int
+		Authors    func(childComplexity int) int
 		Publishers func(childComplexity int) int
+		Rentals    func(childComplexity int) int
+		Books      func(childComplexity int) int
+		Locations  func(childComplexity int) int
+		User       func(childComplexity int, user_id string) int
+		Author     func(childComplexity int, author_id string) int
+		Publisher  func(childComplexity int, publisher_id string) int
+		Rental     func(childComplexity int, rental_id string) int
+		Book       func(childComplexity int, book_id string) int
+		Location   func(childComplexity int, location_id string) int
 	}
 
 	Rental struct {
@@ -99,13 +118,62 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error)
 	CreateUser(ctx context.Context, input NewUser) (User, error)
+	CreateAuthor(ctx context.Context, input NewAuthor) (Author, error)
+	CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error)
+	CreateRental(ctx context.Context, input NewRental) (Rental, error)
+	CreateBook(ctx context.Context, input NewBook) (Book, error)
+	CreateLocation(ctx context.Context, input *NewLocation) (Location, error)
 	DeleteUser(ctx context.Context, user_id string) (string, error)
+	DeleteAuthor(ctx context.Context, author_id string) (string, error)
+	DeletePublisher(ctx context.Context, publisher_id string) (string, error)
+	DeleteRental(ctx context.Context, rental_id string) (string, error)
+	DeleteBook(ctx context.Context, book_id string) (string, error)
+	DeleteLocation(ctx context.Context, location_id string) (string, error)
 }
 type QueryResolver interface {
 	Users(ctx context.Context) ([]User, error)
+	Authors(ctx context.Context) ([]Author, error)
 	Publishers(ctx context.Context) ([]Publisher, error)
+	Rentals(ctx context.Context) ([]Rental, error)
+	Books(ctx context.Context) ([]Book, error)
+	Locations(ctx context.Context) ([]Location, error)
+	User(ctx context.Context, user_id string) (*User, error)
+	Author(ctx context.Context, author_id string) (*Author, error)
+	Publisher(ctx context.Context, publisher_id string) (*Publisher, error)
+	Rental(ctx context.Context, rental_id string) (*Rental, error)
+	Book(ctx context.Context, book_id string) (*Book, error)
+	Location(ctx context.Context, location_id string) (*Location, error)
+}
+
+func field_Mutation_createUser_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 NewUser
+	if tmp, ok := rawArgs["input"]; ok {
+		var err error
+		arg0, err = UnmarshalNewUser(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_createAuthor_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 NewAuthor
+	if tmp, ok := rawArgs["input"]; ok {
+		var err error
+		arg0, err = UnmarshalNewAuthor(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+
 }
 
 func field_Mutation_createPublisher_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
@@ -123,12 +191,47 @@ func field_Mutation_createPublisher_args(rawArgs map[string]interface{}) (map[st
 
 }
 
-func field_Mutation_createUser_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func field_Mutation_createRental_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 NewUser
+	var arg0 NewRental
 	if tmp, ok := rawArgs["input"]; ok {
 		var err error
-		arg0, err = UnmarshalNewUser(tmp)
+		arg0, err = UnmarshalNewRental(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_createBook_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 NewBook
+	if tmp, ok := rawArgs["input"]; ok {
+		var err error
+		arg0, err = UnmarshalNewBook(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_createLocation_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 *NewLocation
+	if tmp, ok := rawArgs["input"]; ok {
+		var err error
+		var ptr1 NewLocation
+		if tmp != nil {
+			ptr1, err = UnmarshalNewLocation(tmp)
+			arg0 = &ptr1
+		}
+
 		if err != nil {
 			return nil, err
 		}
@@ -149,6 +252,171 @@ func field_Mutation_deleteUser_args(rawArgs map[string]interface{}) (map[string]
 		}
 	}
 	args["user_id"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_deleteAuthor_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["author_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["author_id"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_deletePublisher_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["publisher_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["publisher_id"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_deleteRental_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["rental_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["rental_id"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_deleteBook_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["book_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["book_id"] = arg0
+	return args, nil
+
+}
+
+func field_Mutation_deleteLocation_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["location_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["location_id"] = arg0
+	return args, nil
+
+}
+
+func field_Query_user_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["user_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["user_id"] = arg0
+	return args, nil
+
+}
+
+func field_Query_author_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["author_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["author_id"] = arg0
+	return args, nil
+
+}
+
+func field_Query_publisher_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["publisher_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["publisher_id"] = arg0
+	return args, nil
+
+}
+
+func field_Query_rental_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["rental_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["rental_id"] = arg0
+	return args, nil
+
+}
+
+func field_Query_book_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["book_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["book_id"] = arg0
+	return args, nil
+
+}
+
+func field_Query_location_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["location_id"]; ok {
+		var err error
+		arg0, err = graphql.UnmarshalID(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["location_id"] = arg0
 	return args, nil
 
 }
@@ -323,18 +591,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Location.Room(childComplexity), true
 
-	case "Mutation.createPublisher":
-		if e.complexity.Mutation.CreatePublisher == nil {
-			break
-		}
-
-		args, err := field_Mutation_createPublisher_args(rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreatePublisher(childComplexity, args["input"].(NewPublisher)), true
-
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -347,6 +603,66 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(NewUser)), true
 
+	case "Mutation.createAuthor":
+		if e.complexity.Mutation.CreateAuthor == nil {
+			break
+		}
+
+		args, err := field_Mutation_createAuthor_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateAuthor(childComplexity, args["input"].(NewAuthor)), true
+
+	case "Mutation.createPublisher":
+		if e.complexity.Mutation.CreatePublisher == nil {
+			break
+		}
+
+		args, err := field_Mutation_createPublisher_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreatePublisher(childComplexity, args["input"].(NewPublisher)), true
+
+	case "Mutation.createRental":
+		if e.complexity.Mutation.CreateRental == nil {
+			break
+		}
+
+		args, err := field_Mutation_createRental_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateRental(childComplexity, args["input"].(NewRental)), true
+
+	case "Mutation.createBook":
+		if e.complexity.Mutation.CreateBook == nil {
+			break
+		}
+
+		args, err := field_Mutation_createBook_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateBook(childComplexity, args["input"].(NewBook)), true
+
+	case "Mutation.createLocation":
+		if e.complexity.Mutation.CreateLocation == nil {
+			break
+		}
+
+		args, err := field_Mutation_createLocation_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateLocation(childComplexity, args["input"].(*NewLocation)), true
+
 	case "Mutation.deleteUser":
 		if e.complexity.Mutation.DeleteUser == nil {
 			break
@@ -358,6 +674,66 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["user_id"].(string)), true
+
+	case "Mutation.deleteAuthor":
+		if e.complexity.Mutation.DeleteAuthor == nil {
+			break
+		}
+
+		args, err := field_Mutation_deleteAuthor_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteAuthor(childComplexity, args["author_id"].(string)), true
+
+	case "Mutation.deletePublisher":
+		if e.complexity.Mutation.DeletePublisher == nil {
+			break
+		}
+
+		args, err := field_Mutation_deletePublisher_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeletePublisher(childComplexity, args["publisher_id"].(string)), true
+
+	case "Mutation.deleteRental":
+		if e.complexity.Mutation.DeleteRental == nil {
+			break
+		}
+
+		args, err := field_Mutation_deleteRental_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteRental(childComplexity, args["rental_id"].(string)), true
+
+	case "Mutation.deleteBook":
+		if e.complexity.Mutation.DeleteBook == nil {
+			break
+		}
+
+		args, err := field_Mutation_deleteBook_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteBook(childComplexity, args["book_id"].(string)), true
+
+	case "Mutation.deleteLocation":
+		if e.complexity.Mutation.DeleteLocation == nil {
+			break
+		}
+
+		args, err := field_Mutation_deleteLocation_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteLocation(childComplexity, args["location_id"].(string)), true
 
 	case "Publisher.publisher_id":
 		if e.complexity.Publisher.PublisherId == nil {
@@ -380,12 +756,112 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Users(childComplexity), true
 
+	case "Query.authors":
+		if e.complexity.Query.Authors == nil {
+			break
+		}
+
+		return e.complexity.Query.Authors(childComplexity), true
+
 	case "Query.publishers":
 		if e.complexity.Query.Publishers == nil {
 			break
 		}
 
 		return e.complexity.Query.Publishers(childComplexity), true
+
+	case "Query.rentals":
+		if e.complexity.Query.Rentals == nil {
+			break
+		}
+
+		return e.complexity.Query.Rentals(childComplexity), true
+
+	case "Query.books":
+		if e.complexity.Query.Books == nil {
+			break
+		}
+
+		return e.complexity.Query.Books(childComplexity), true
+
+	case "Query.locations":
+		if e.complexity.Query.Locations == nil {
+			break
+		}
+
+		return e.complexity.Query.Locations(childComplexity), true
+
+	case "Query.user":
+		if e.complexity.Query.User == nil {
+			break
+		}
+
+		args, err := field_Query_user_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.User(childComplexity, args["user_id"].(string)), true
+
+	case "Query.author":
+		if e.complexity.Query.Author == nil {
+			break
+		}
+
+		args, err := field_Query_author_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Author(childComplexity, args["author_id"].(string)), true
+
+	case "Query.publisher":
+		if e.complexity.Query.Publisher == nil {
+			break
+		}
+
+		args, err := field_Query_publisher_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Publisher(childComplexity, args["publisher_id"].(string)), true
+
+	case "Query.rental":
+		if e.complexity.Query.Rental == nil {
+			break
+		}
+
+		args, err := field_Query_rental_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Rental(childComplexity, args["rental_id"].(string)), true
+
+	case "Query.book":
+		if e.complexity.Query.Book == nil {
+			break
+		}
+
+		args, err := field_Query_book_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Book(childComplexity, args["book_id"].(string)), true
+
+	case "Query.location":
+		if e.complexity.Query.Location == nil {
+			break
+		}
+
+		args, err := field_Query_location_args(rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Location(childComplexity, args["location_id"].(string)), true
 
 	case "Rental.rental_id":
 		if e.complexity.Rental.RentalId == nil {
@@ -1119,18 +1595,63 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "createPublisher":
-			out.Values[i] = ec._Mutation_createPublisher(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
 		case "createUser":
 			out.Values[i] = ec._Mutation_createUser(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
+		case "createAuthor":
+			out.Values[i] = ec._Mutation_createAuthor(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "createPublisher":
+			out.Values[i] = ec._Mutation_createPublisher(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "createRental":
+			out.Values[i] = ec._Mutation_createRental(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "createBook":
+			out.Values[i] = ec._Mutation_createBook(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "createLocation":
+			out.Values[i] = ec._Mutation_createLocation(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "deleteUser":
 			out.Values[i] = ec._Mutation_deleteUser(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "deleteAuthor":
+			out.Values[i] = ec._Mutation_deleteAuthor(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "deletePublisher":
+			out.Values[i] = ec._Mutation_deletePublisher(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "deleteRental":
+			out.Values[i] = ec._Mutation_deleteRental(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "deleteBook":
+			out.Values[i] = ec._Mutation_deleteBook(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "deleteLocation":
+			out.Values[i] = ec._Mutation_deleteLocation(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
@@ -1143,40 +1664,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		return graphql.Null
 	}
 	return out
-}
-
-// nolint: vetshadow
-func (ec *executionContext) _Mutation_createPublisher(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
-	ctx = ec.Tracer.StartFieldExecution(ctx, field)
-	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := field_Mutation_createPublisher_args(rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	rctx := &graphql.ResolverContext{
-		Object: "Mutation",
-		Args:   args,
-		Field:  field,
-	}
-	ctx = graphql.WithResolverContext(ctx, rctx)
-	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
-	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreatePublisher(rctx, args["input"].(NewPublisher))
-	})
-	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(Publisher)
-	rctx.Result = res
-	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._Publisher(ctx, field.Selections, &res)
 }
 
 // nolint: vetshadow
@@ -1214,6 +1701,176 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 }
 
 // nolint: vetshadow
+func (ec *executionContext) _Mutation_createAuthor(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_createAuthor_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateAuthor(rctx, args["input"].(NewAuthor))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(Author)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	return ec._Author(ctx, field.Selections, &res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_createPublisher(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_createPublisher_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreatePublisher(rctx, args["input"].(NewPublisher))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(Publisher)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	return ec._Publisher(ctx, field.Selections, &res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_createRental(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_createRental_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateRental(rctx, args["input"].(NewRental))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(Rental)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	return ec._Rental(ctx, field.Selections, &res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_createBook(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_createBook_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateBook(rctx, args["input"].(NewBook))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(Book)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	return ec._Book(ctx, field.Selections, &res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_createLocation(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_createLocation_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateLocation(rctx, args["input"].(*NewLocation))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(Location)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	return ec._Location(ctx, field.Selections, &res)
+}
+
+// nolint: vetshadow
 func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
 	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
@@ -1233,6 +1890,171 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().DeleteUser(rctx, args["user_id"].(string))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return graphql.MarshalID(res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_deleteAuthor(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_deleteAuthor_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteAuthor(rctx, args["author_id"].(string))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return graphql.MarshalID(res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_deletePublisher(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_deletePublisher_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeletePublisher(rctx, args["publisher_id"].(string))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return graphql.MarshalID(res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_deleteRental(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_deleteRental_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteRental(rctx, args["rental_id"].(string))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return graphql.MarshalID(res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_deleteBook(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_deleteBook_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteBook(rctx, args["book_id"].(string))
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return graphql.MarshalID(res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Mutation_deleteLocation(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Mutation_deleteLocation_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Mutation",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteLocation(rctx, args["location_id"].(string))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1363,6 +2185,15 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}
 				wg.Done()
 			}(i, field)
+		case "authors":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_authors(ctx, field)
+				if out.Values[i] == graphql.Null {
+					invalid = true
+				}
+				wg.Done()
+			}(i, field)
 		case "publishers":
 			wg.Add(1)
 			go func(i int, field graphql.CollectedField) {
@@ -1370,6 +2201,69 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				if out.Values[i] == graphql.Null {
 					invalid = true
 				}
+				wg.Done()
+			}(i, field)
+		case "rentals":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_rentals(ctx, field)
+				if out.Values[i] == graphql.Null {
+					invalid = true
+				}
+				wg.Done()
+			}(i, field)
+		case "books":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_books(ctx, field)
+				if out.Values[i] == graphql.Null {
+					invalid = true
+				}
+				wg.Done()
+			}(i, field)
+		case "locations":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_locations(ctx, field)
+				if out.Values[i] == graphql.Null {
+					invalid = true
+				}
+				wg.Done()
+			}(i, field)
+		case "user":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_user(ctx, field)
+				wg.Done()
+			}(i, field)
+		case "author":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_author(ctx, field)
+				wg.Done()
+			}(i, field)
+		case "publisher":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_publisher(ctx, field)
+				wg.Done()
+			}(i, field)
+		case "rental":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_rental(ctx, field)
+				wg.Done()
+			}(i, field)
+		case "book":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_book(ctx, field)
+				wg.Done()
+			}(i, field)
+		case "location":
+			wg.Add(1)
+			go func(i int, field graphql.CollectedField) {
+				out.Values[i] = ec._Query_location(ctx, field)
 				wg.Done()
 			}(i, field)
 		case "__type":
@@ -1448,6 +2342,66 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 }
 
 // nolint: vetshadow
+func (ec *executionContext) _Query_authors(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Authors(rctx)
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]Author)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	arr1 := make(graphql.Array, len(res))
+	var wg sync.WaitGroup
+
+	isLen1 := len(res) == 1
+	if !isLen1 {
+		wg.Add(len(res))
+	}
+
+	for idx1 := range res {
+		idx1 := idx1
+		rctx := &graphql.ResolverContext{
+			Index:  &idx1,
+			Result: &res[idx1],
+		}
+		ctx := graphql.WithResolverContext(ctx, rctx)
+		f := func(idx1 int) {
+			if !isLen1 {
+				defer wg.Done()
+			}
+			arr1[idx1] = func() graphql.Marshaler {
+
+				return ec._Author(ctx, field.Selections, &res[idx1])
+			}()
+		}
+		if isLen1 {
+			f(idx1)
+		} else {
+			go f(idx1)
+		}
+
+	}
+	wg.Wait()
+	return arr1
+}
+
+// nolint: vetshadow
 func (ec *executionContext) _Query_publishers(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
 	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
@@ -1505,6 +2459,396 @@ func (ec *executionContext) _Query_publishers(ctx context.Context, field graphql
 	}
 	wg.Wait()
 	return arr1
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_rentals(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Rentals(rctx)
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]Rental)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	arr1 := make(graphql.Array, len(res))
+	var wg sync.WaitGroup
+
+	isLen1 := len(res) == 1
+	if !isLen1 {
+		wg.Add(len(res))
+	}
+
+	for idx1 := range res {
+		idx1 := idx1
+		rctx := &graphql.ResolverContext{
+			Index:  &idx1,
+			Result: &res[idx1],
+		}
+		ctx := graphql.WithResolverContext(ctx, rctx)
+		f := func(idx1 int) {
+			if !isLen1 {
+				defer wg.Done()
+			}
+			arr1[idx1] = func() graphql.Marshaler {
+
+				return ec._Rental(ctx, field.Selections, &res[idx1])
+			}()
+		}
+		if isLen1 {
+			f(idx1)
+		} else {
+			go f(idx1)
+		}
+
+	}
+	wg.Wait()
+	return arr1
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_books(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Books(rctx)
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]Book)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	arr1 := make(graphql.Array, len(res))
+	var wg sync.WaitGroup
+
+	isLen1 := len(res) == 1
+	if !isLen1 {
+		wg.Add(len(res))
+	}
+
+	for idx1 := range res {
+		idx1 := idx1
+		rctx := &graphql.ResolverContext{
+			Index:  &idx1,
+			Result: &res[idx1],
+		}
+		ctx := graphql.WithResolverContext(ctx, rctx)
+		f := func(idx1 int) {
+			if !isLen1 {
+				defer wg.Done()
+			}
+			arr1[idx1] = func() graphql.Marshaler {
+
+				return ec._Book(ctx, field.Selections, &res[idx1])
+			}()
+		}
+		if isLen1 {
+			f(idx1)
+		} else {
+			go f(idx1)
+		}
+
+	}
+	wg.Wait()
+	return arr1
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_locations(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Locations(rctx)
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]Location)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	arr1 := make(graphql.Array, len(res))
+	var wg sync.WaitGroup
+
+	isLen1 := len(res) == 1
+	if !isLen1 {
+		wg.Add(len(res))
+	}
+
+	for idx1 := range res {
+		idx1 := idx1
+		rctx := &graphql.ResolverContext{
+			Index:  &idx1,
+			Result: &res[idx1],
+		}
+		ctx := graphql.WithResolverContext(ctx, rctx)
+		f := func(idx1 int) {
+			if !isLen1 {
+				defer wg.Done()
+			}
+			arr1[idx1] = func() graphql.Marshaler {
+
+				return ec._Location(ctx, field.Selections, &res[idx1])
+			}()
+		}
+		if isLen1 {
+			f(idx1)
+		} else {
+			go f(idx1)
+		}
+
+	}
+	wg.Wait()
+	return arr1
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_user(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Query_user_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().User(rctx, args["user_id"].(string))
+	})
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*User)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+
+	return ec._User(ctx, field.Selections, res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_author(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Query_author_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Author(rctx, args["author_id"].(string))
+	})
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Author)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+
+	return ec._Author(ctx, field.Selections, res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_publisher(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Query_publisher_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Publisher(rctx, args["publisher_id"].(string))
+	})
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Publisher)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+
+	return ec._Publisher(ctx, field.Selections, res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_rental(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Query_rental_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Rental(rctx, args["rental_id"].(string))
+	})
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Rental)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+
+	return ec._Rental(ctx, field.Selections, res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_book(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Query_book_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Book(rctx, args["book_id"].(string))
+	})
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Book)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+
+	return ec._Book(ctx, field.Selections, res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Query_location(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := field_Query_location_args(rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx := &graphql.ResolverContext{
+		Object: "Query",
+		Args:   args,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Location(rctx, args["location_id"].(string))
+	})
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*Location)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+
+	return ec._Location(ctx, field.Selections, res)
 }
 
 // nolint: vetshadow
@@ -3749,14 +5093,34 @@ input NewLocation {
 }
 
 type Mutation {
-    createPublisher(input: NewPublisher!): Publisher!
     createUser(input: NewUser!): User!
+    createAuthor(input: NewAuthor!): Author!
+    createPublisher(input: NewPublisher!): Publisher!
+    createRental(input: NewRental!): Rental!
+    createBook(input: NewBook!): Book!
+    createLocation(input: NewLocation): Location!
+
     deleteUser(user_id: ID!): ID!
+    deleteAuthor(author_id: ID!): ID!
+    deletePublisher(publisher_id: ID!): ID!
+    deleteRental(rental_id: ID!): ID!
+    deleteBook(book_id: ID!): ID!
+    deleteLocation(location_id: ID!): ID!
 }
 
 type Query {
     users: [User!]!
+    authors: [Author!]!
     publishers: [Publisher!]!
+    rentals: [Rental!]!
+    books: [Book!]!
+    locations: [Location!]!
+    user(user_id: ID!): User
+    author(author_id: ID!): Author
+    publisher(publisher_id: ID!): Publisher
+    rental(rental_id: ID!): Rental
+    book(book_id: ID!): Book
+    location(location_id: ID!): Location
 }
 
 scalar Date
