@@ -8,3 +8,6 @@ https://github.com/golang/go/wiki/SettingGOPATH
 
 Fajny tutorial
 https://www.logisticinfotech.com/blog/graphql-subscription-golang-reactjs/
+
+Date:
+https://www.apollographql.com/docs/graphql-tools/scalars.html
