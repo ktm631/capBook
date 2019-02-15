@@ -17,7 +17,15 @@ func (r *Resolver) Query() QueryResolver {
 type mutationResolver struct{ *Resolver }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (User, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	user.Name = input.Name
+	user.Surname = input.Surname
+	user.Email = input.Email
+	user.Password = input.Password
+	user.IsAdmin = input.IsAdmin
+	db.Create(&user)
+	return user, nil
 }
 func (r *mutationResolver) CreateAuthor(ctx context.Context, input NewAuthor) (Author, error) {
 	var db = database_config.DbConn()
