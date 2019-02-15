@@ -20,7 +20,12 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (User,
 	panic("not implemented")
 }
 func (r *mutationResolver) CreateAuthor(ctx context.Context, input NewAuthor) (Author, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var author Author
+	author.Name = input.Name
+	author.Surname = input.Surname
+	db.Create(&author)
+	return author, nil
 }
 func (r *mutationResolver) CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
 	var db = database_config.DbConn()
@@ -72,7 +77,10 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, user_id int) (int, er
 	panic("not implemented")
 }
 func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id int) (int, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var author Author
+	db.Where("author_id = ?", author_id).Delete(&author)
+	return author_id, nil
 }
 func (r *mutationResolver) DeletePublisher(ctx context.Context, publisher_id int) (int, error) {
 	var db = database_config.DbConn()
@@ -124,7 +132,11 @@ func (r *queryResolver) Users(ctx context.Context) ([]User, error) {
 	panic("not implemented")
 }
 func (r *queryResolver) Authors(ctx context.Context) ([]Author, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var authors []Author
+
+	db.Find(&authors)
+	return authors, nil
 }
 func (r *queryResolver) Publishers(ctx context.Context) ([]Publisher, error) {
 	var db = database_config.DbConn()
