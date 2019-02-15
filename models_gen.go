@@ -31,6 +31,13 @@ type NewPublisher struct {
 	Name string `json:"name"`
 }
 
+type NewUser struct {
+	Name    string `json:"name"`
+	Surname string `json:"surname"`
+	Email   string `json:"email"`
+	IsAdmin bool   `json:"is_admin"`
+}
+
 type Publisher struct {
 	PublisherID string `json:"publisher_id"`
 	Name        string `json:"name"`

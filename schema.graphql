@@ -49,11 +49,21 @@ input NewPublisher {
     name: String!
 }
 
+input NewUser {
+    name: String!
+    surname: String!
+    email: String!
+    is_admin: Boolean!
+}
+
 type Mutation {
     createPublisher(input: NewPublisher!): Publisher!
+    createUser(input: NewUser!): User!
+    deleteUser(user_id: ID!): ID!
 }
 
 type Query {
+    users: [User!]!
     publishers: [Publisher!]!
 }
 
