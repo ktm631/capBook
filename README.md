@@ -20,10 +20,11 @@ https://tutorialedge.net/golang/golang-orm-tutorial/
 MySQL
 github.com/go-sql-driver/mysql
 
-**graphql schemas definition**
+RunServer
+go run ./server/server.go
 
+**graphql schemas definition**
 * https://graphql.org/learn/schema/
 
 **scalars**
-
 * https://medium.com/open-graphql/top-5-graphql-scalars-3f8a38965b53
