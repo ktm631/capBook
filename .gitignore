@@ -101,3 +101,48 @@ modules.xml
 .idea/sonarlint
 
 # End of https://www.gitignore.io/api/go,intellij
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/wonderfulGUI/dist
+/wonderfulGUI/tmp
+/wonderfulGUI/out-tsc
+
+# dependencies
+/wonderfulGUI/node_modules
+
+# profiling files
+/wonderfulGUI/chrome-profiler-events.json
+/wonderfulGUI/speed-measure-plugin.json
+
+# IDEs and editors
+/wonderfulGUI/.idea
+/wonderfulGUI/.project
+/wonderfulGUI/.classpath
+/wonderfulGUI/.c9/
+/wonderfulGUI/*.launch
+/wonderfulGUI/.settings/
+/wonderfulGUI/*.sublime-workspace
+
+# IDE - VSCode
+/wonderfulGUI/.vscode/*
+/wonderfulGUI/!.vscode/settings.json
+/wonderfulGUI/!.vscode/tasks.json
+/wonderfulGUI/!.vscode/launch.json
+/wonderfulGUI/!.vscode/extensions.json
+/wonderfulGUI/.history/*
+
+# misc
+/wonderfulGUI/.sass-cache
+/wonderfulGUI/connect.lock
+/wonderfulGUI/coverage
+/wonderfulGUI/libpeerconnection.log
+/wonderfulGUI/npm-debug.log
+/wonderfulGUI/yarn-error.log
+/wonderfulGUI/testem.log
+/wonderfulGUI/typings
+
+# System Files
+/wonderfulGUI/.DS_Store
+/wonderfulGUI/Thumbs.db
