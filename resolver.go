@@ -49,8 +49,12 @@ func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id string) (
 	panic("not implemented")
 }
 func (r *mutationResolver) DeletePublisher(ctx context.Context, publisher_id string) (string, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var publisher Publisher
+	db.Where("publisher_id = ?", publisher_id).Delete(&publisher)
+	return "successfully deleted publisher with id" + publisher_id, nil
 }
+
 func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id string) (string, error) {
 	panic("not implemented")
 }
@@ -70,7 +74,12 @@ func (r *queryResolver) Authors(ctx context.Context) ([]Author, error) {
 	panic("not implemented")
 }
 func (r *queryResolver) Publishers(ctx context.Context) ([]Publisher, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var publishers []Publisher
+
+	db.Find(&publishers)
+	return publishers, nil
+	//panic("not implemented")
 }
 func (r *queryResolver) Rentals(ctx context.Context) ([]Rental, error) {
 	panic("not implemented")
@@ -88,7 +97,10 @@ func (r *queryResolver) Author(ctx context.Context, author_id string) (*Author, 
 	panic("not implemented")
 }
 func (r *queryResolver) Publisher(ctx context.Context, publisher_id string) (*Publisher, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var publisher Publisher
+	db.Where("publisher_id = ?", publisher_id).First(&publisher)
+	return &publisher, nil
 }
 func (r *queryResolver) Rental(ctx context.Context, rental_id string) (*Rental, error) {
 	panic("not implemented")
