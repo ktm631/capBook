@@ -62,6 +62,25 @@ func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) 
 	panic("not implemented")
 }
 
+func (r *mutationResolver) UpdateUser(ctx context.Context, input NewUser) (User, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor) (Author, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) UpdatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) UpdateRental(ctx context.Context, input NewRental) (Rental, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) UpdateBook(ctx context.Context, input NewBook) (Book, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) UpdateLocation(ctx context.Context, input *NewLocation) (Location, error) {
+	panic("not implemented")
+}
+
 type queryResolver struct{ *Resolver }
 
 func (r *queryResolver) Users(ctx context.Context) ([]User, error) {

@@ -101,6 +101,13 @@ type Mutation {
     deleteRental(rental_id: Int!): Int!
     deleteBook(book_id: Int!): Int!
     deleteLocation(location_id: Int!): Int!
+
+    updateUser(input: NewUser!): User!
+    updateAuthor(input: NewAuthor!): Author!
+    updatePublisher(input: NewPublisher!): Publisher!
+    updateRental(input: NewRental!): Rental!
+    updateBook(input: NewBook!): Book!
+    updateLocation(input: NewLocation): Location!
 }
 
 type Query {
