@@ -22,7 +22,7 @@ func main() {
 	}
 	db = database_config.DbConn()
 	defer db.Close()
-	db.AutoMigrate(&capBook.User{})
+	db.AutoMigrate(&capBook.User{}, &capBook.Author{}, &capBook.Book{}, &capBook.Location{}, &capBook.Publisher{}, &capBook.Rental{})
 	http.Handle("/", handler.Playground("GraphQL playground", "/query"))
 	http.Handle("/query", handler.GraphQL(capBook.NewExecutableSchema(capBook.Config{Resolvers: &capBook.Resolver{}})))
 
