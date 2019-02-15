@@ -18,3 +18,6 @@ https://tutorialedge.net/golang/golang-orm-tutorial/
 
 MySQL
 github.com/go-sql-driver/mysql
+
+RunServer
+go run ./server/server.go
