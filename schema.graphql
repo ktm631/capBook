@@ -47,6 +47,7 @@ type Location {
 }
 
 input NewUser {
+    userID: String!
     name: String!
     surname: String!
     email: String!
@@ -54,15 +55,18 @@ input NewUser {
 }
 
 input NewAuthor {
+    authorID: String!
     name: String!
     surname: String!
 }
 
 input NewPublisher {
+    publisherID: String!
     name: String!
 }
 
 input NewRental {
+    rentalID: String!
     bookID: String!
     userID: String!
     start_date: Date!
@@ -71,6 +75,7 @@ input NewRental {
 }
 
 input NewBook {
+    bookID: String!
     locationID: String!
     ownerID: String!
     authorID: String!
@@ -83,6 +88,7 @@ input NewBook {
 }
 
 input NewLocation {
+    locationID: String!
     building: String!
     room: String!
 }
