@@ -35,7 +35,7 @@ type Book {
     title: String!
     isbn: String!
     edition: Int!
-    is_free: Bool!
+    is_free: Boolean!
     description_url: String!
 }
 
