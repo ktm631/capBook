@@ -1,5 +1,5 @@
 type User {
-    user_id: String!
+    user_id: Int!
     name: String!
     surname: String!
     email: String!
@@ -8,31 +8,31 @@ type User {
 }
 
 type Author {
-    author_id: String!
+    author_id: Int!
     name: String!
     surname: String!
 }
 
 type Publisher {
-    publisher_id: String!
+    publisher_id: Int!
     name: String!
 }
 
 type Rental {
-    rental_id: String!
-    book_id: ID!
-    user_id: ID!
+    rental_id: Int!
+    book_id: Int!
+    user_id: Int!
     start_date: Date!
     expected_end_date: Date!
     end_date: Date!
 }
 
 type Book {
-    book_id: String!
-    location_id: ID!
-    owner_id: ID!
-    author_id: ID!
-    publisher_id: ID!
+    book_id: Int!
+    location_id: Int!
+    owner_id: Int!
+    author_id: Int!
+    publisher_id: Int!
     title: String!
     isbn: String!
     edition: Int!
@@ -41,13 +41,12 @@ type Book {
 }
 
 type Location {
-    location_id: String!
+    location_id: Int!
     building: String!
     room: String!
 }
 
 input NewUser {
-    userID: String!
     name: String!
     surname: String!
     email: String!
@@ -55,31 +54,27 @@ input NewUser {
 }
 
 input NewAuthor {
-    authorID: String!
     name: String!
     surname: String!
 }
 
 input NewPublisher {
-    publisherID: String!
     name: String!
 }
 
 input NewRental {
-    rentalID: String!
-    bookID: String!
-    userID: String!
+    bookID: Int!
+    userID: Int!
     start_date: Date!
     expected_end_date: Date!
     end_date: Date!
 }
 
 input NewBook {
-    bookID: String!
-    locationID: String!
-    ownerID: String!
-    authorID: String!
-    publisherID: String!
+    locationID: Int!
+    ownerID: Int!
+    authorID: Int!
+    publisherID: Int!
     title: String!
     isbn: String!
     edition: Int!
@@ -88,7 +83,6 @@ input NewBook {
 }
 
 input NewLocation {
-    locationID: String!
     building: String!
     room: String!
 }
@@ -101,12 +95,12 @@ type Mutation {
     createBook(input: NewBook!): Book!
     createLocation(input: NewLocation): Location!
 
-    deleteUser(user_id: ID!): ID!
-    deleteAuthor(author_id: ID!): ID!
-    deletePublisher(publisher_id: ID!): ID!
-    deleteRental(rental_id: ID!): ID!
-    deleteBook(book_id: ID!): ID!
-    deleteLocation(location_id: ID!): ID!
+    deleteUser(user_id: Int!): Int!
+    deleteAuthor(author_id: Int!): Int!
+    deletePublisher(publisher_id: Int!): Int!
+    deleteRental(rental_id: Int!): Int!
+    deleteBook(book_id: Int!): Int!
+    deleteLocation(location_id: Int!): Int!
 }
 
 type Query {
@@ -116,12 +110,12 @@ type Query {
     rentals: [Rental!]!
     books: [Book!]!
     locations: [Location!]!
-    user(user_id: ID!): User
-    author(author_id: ID!): Author
-    publisher(publisher_id: ID!): Publisher
-    rental(rental_id: ID!): Rental
-    book(book_id: ID!): Book
-    location(location_id: ID!): Location
+    user(user_id: Int!): User
+    author(author_id: Int!): Author
+    publisher(publisher_id: Int!): Publisher
+    rental(rental_id: Int!): Rental
+    book(book_id: Int!): Book
+    location(location_id: Int!): Location
 }
 
 scalar Date

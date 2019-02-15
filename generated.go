@@ -71,12 +71,12 @@ type ComplexityRoot struct {
 		CreateRental    func(childComplexity int, input NewRental) int
 		CreateBook      func(childComplexity int, input NewBook) int
 		CreateLocation  func(childComplexity int, input *NewLocation) int
-		DeleteUser      func(childComplexity int, user_id string) int
-		DeleteAuthor    func(childComplexity int, author_id string) int
-		DeletePublisher func(childComplexity int, publisher_id string) int
-		DeleteRental    func(childComplexity int, rental_id string) int
-		DeleteBook      func(childComplexity int, book_id string) int
-		DeleteLocation  func(childComplexity int, location_id string) int
+		DeleteUser      func(childComplexity int, user_id int) int
+		DeleteAuthor    func(childComplexity int, author_id int) int
+		DeletePublisher func(childComplexity int, publisher_id int) int
+		DeleteRental    func(childComplexity int, rental_id int) int
+		DeleteBook      func(childComplexity int, book_id int) int
+		DeleteLocation  func(childComplexity int, location_id int) int
 	}
 
 	Publisher struct {
@@ -91,12 +91,12 @@ type ComplexityRoot struct {
 		Rentals    func(childComplexity int) int
 		Books      func(childComplexity int) int
 		Locations  func(childComplexity int) int
-		User       func(childComplexity int, user_id string) int
-		Author     func(childComplexity int, author_id string) int
-		Publisher  func(childComplexity int, publisher_id string) int
-		Rental     func(childComplexity int, rental_id string) int
-		Book       func(childComplexity int, book_id string) int
-		Location   func(childComplexity int, location_id string) int
+		User       func(childComplexity int, user_id int) int
+		Author     func(childComplexity int, author_id int) int
+		Publisher  func(childComplexity int, publisher_id int) int
+		Rental     func(childComplexity int, rental_id int) int
+		Book       func(childComplexity int, book_id int) int
+		Location   func(childComplexity int, location_id int) int
 	}
 
 	Rental struct {
@@ -125,12 +125,12 @@ type MutationResolver interface {
 	CreateRental(ctx context.Context, input NewRental) (Rental, error)
 	CreateBook(ctx context.Context, input NewBook) (Book, error)
 	CreateLocation(ctx context.Context, input *NewLocation) (Location, error)
-	DeleteUser(ctx context.Context, user_id string) (string, error)
-	DeleteAuthor(ctx context.Context, author_id string) (string, error)
-	DeletePublisher(ctx context.Context, publisher_id string) (string, error)
-	DeleteRental(ctx context.Context, rental_id string) (string, error)
-	DeleteBook(ctx context.Context, book_id string) (string, error)
-	DeleteLocation(ctx context.Context, location_id string) (string, error)
+	DeleteUser(ctx context.Context, user_id int) (int, error)
+	DeleteAuthor(ctx context.Context, author_id int) (int, error)
+	DeletePublisher(ctx context.Context, publisher_id int) (int, error)
+	DeleteRental(ctx context.Context, rental_id int) (int, error)
+	DeleteBook(ctx context.Context, book_id int) (int, error)
+	DeleteLocation(ctx context.Context, location_id int) (int, error)
 }
 type QueryResolver interface {
 	Users(ctx context.Context) ([]User, error)
@@ -139,12 +139,12 @@ type QueryResolver interface {
 	Rentals(ctx context.Context) ([]Rental, error)
 	Books(ctx context.Context) ([]Book, error)
 	Locations(ctx context.Context) ([]Location, error)
-	User(ctx context.Context, user_id string) (*User, error)
-	Author(ctx context.Context, author_id string) (*Author, error)
-	Publisher(ctx context.Context, publisher_id string) (*Publisher, error)
-	Rental(ctx context.Context, rental_id string) (*Rental, error)
-	Book(ctx context.Context, book_id string) (*Book, error)
-	Location(ctx context.Context, location_id string) (*Location, error)
+	User(ctx context.Context, user_id int) (*User, error)
+	Author(ctx context.Context, author_id int) (*Author, error)
+	Publisher(ctx context.Context, publisher_id int) (*Publisher, error)
+	Rental(ctx context.Context, rental_id int) (*Rental, error)
+	Book(ctx context.Context, book_id int) (*Book, error)
+	Location(ctx context.Context, location_id int) (*Location, error)
 }
 
 func field_Mutation_createUser_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
@@ -244,10 +244,10 @@ func field_Mutation_createLocation_args(rawArgs map[string]interface{}) (map[str
 
 func field_Mutation_deleteUser_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["user_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -259,10 +259,10 @@ func field_Mutation_deleteUser_args(rawArgs map[string]interface{}) (map[string]
 
 func field_Mutation_deleteAuthor_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["author_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -274,10 +274,10 @@ func field_Mutation_deleteAuthor_args(rawArgs map[string]interface{}) (map[strin
 
 func field_Mutation_deletePublisher_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["publisher_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -289,10 +289,10 @@ func field_Mutation_deletePublisher_args(rawArgs map[string]interface{}) (map[st
 
 func field_Mutation_deleteRental_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["rental_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -304,10 +304,10 @@ func field_Mutation_deleteRental_args(rawArgs map[string]interface{}) (map[strin
 
 func field_Mutation_deleteBook_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["book_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -319,10 +319,10 @@ func field_Mutation_deleteBook_args(rawArgs map[string]interface{}) (map[string]
 
 func field_Mutation_deleteLocation_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["location_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -334,10 +334,10 @@ func field_Mutation_deleteLocation_args(rawArgs map[string]interface{}) (map[str
 
 func field_Query_user_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["user_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -349,10 +349,10 @@ func field_Query_user_args(rawArgs map[string]interface{}) (map[string]interface
 
 func field_Query_author_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["author_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -364,10 +364,10 @@ func field_Query_author_args(rawArgs map[string]interface{}) (map[string]interfa
 
 func field_Query_publisher_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["publisher_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -379,10 +379,10 @@ func field_Query_publisher_args(rawArgs map[string]interface{}) (map[string]inte
 
 func field_Query_rental_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["rental_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -394,10 +394,10 @@ func field_Query_rental_args(rawArgs map[string]interface{}) (map[string]interfa
 
 func field_Query_book_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["book_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -409,10 +409,10 @@ func field_Query_book_args(rawArgs map[string]interface{}) (map[string]interface
 
 func field_Query_location_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["location_id"]; ok {
 		var err error
-		arg0, err = graphql.UnmarshalID(tmp)
+		arg0, err = graphql.UnmarshalInt(tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -674,7 +674,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteUser(childComplexity, args["user_id"].(string)), true
+		return e.complexity.Mutation.DeleteUser(childComplexity, args["user_id"].(int)), true
 
 	case "Mutation.deleteAuthor":
 		if e.complexity.Mutation.DeleteAuthor == nil {
@@ -686,7 +686,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteAuthor(childComplexity, args["author_id"].(string)), true
+		return e.complexity.Mutation.DeleteAuthor(childComplexity, args["author_id"].(int)), true
 
 	case "Mutation.deletePublisher":
 		if e.complexity.Mutation.DeletePublisher == nil {
@@ -698,7 +698,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeletePublisher(childComplexity, args["publisher_id"].(string)), true
+		return e.complexity.Mutation.DeletePublisher(childComplexity, args["publisher_id"].(int)), true
 
 	case "Mutation.deleteRental":
 		if e.complexity.Mutation.DeleteRental == nil {
@@ -710,7 +710,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteRental(childComplexity, args["rental_id"].(string)), true
+		return e.complexity.Mutation.DeleteRental(childComplexity, args["rental_id"].(int)), true
 
 	case "Mutation.deleteBook":
 		if e.complexity.Mutation.DeleteBook == nil {
@@ -722,7 +722,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteBook(childComplexity, args["book_id"].(string)), true
+		return e.complexity.Mutation.DeleteBook(childComplexity, args["book_id"].(int)), true
 
 	case "Mutation.deleteLocation":
 		if e.complexity.Mutation.DeleteLocation == nil {
@@ -734,7 +734,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteLocation(childComplexity, args["location_id"].(string)), true
+		return e.complexity.Mutation.DeleteLocation(childComplexity, args["location_id"].(int)), true
 
 	case "Publisher.publisher_id":
 		if e.complexity.Publisher.PublisherId == nil {
@@ -802,7 +802,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.User(childComplexity, args["user_id"].(string)), true
+		return e.complexity.Query.User(childComplexity, args["user_id"].(int)), true
 
 	case "Query.author":
 		if e.complexity.Query.Author == nil {
@@ -814,7 +814,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Author(childComplexity, args["author_id"].(string)), true
+		return e.complexity.Query.Author(childComplexity, args["author_id"].(int)), true
 
 	case "Query.publisher":
 		if e.complexity.Query.Publisher == nil {
@@ -826,7 +826,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Publisher(childComplexity, args["publisher_id"].(string)), true
+		return e.complexity.Query.Publisher(childComplexity, args["publisher_id"].(int)), true
 
 	case "Query.rental":
 		if e.complexity.Query.Rental == nil {
@@ -838,7 +838,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Rental(childComplexity, args["rental_id"].(string)), true
+		return e.complexity.Query.Rental(childComplexity, args["rental_id"].(int)), true
 
 	case "Query.book":
 		if e.complexity.Query.Book == nil {
@@ -850,7 +850,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Book(childComplexity, args["book_id"].(string)), true
+		return e.complexity.Query.Book(childComplexity, args["book_id"].(int)), true
 
 	case "Query.location":
 		if e.complexity.Query.Location == nil {
@@ -862,7 +862,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Location(childComplexity, args["location_id"].(string)), true
+		return e.complexity.Query.Location(childComplexity, args["location_id"].(int)), true
 
 	case "Rental.rental_id":
 		if e.complexity.Rental.RentalId == nil {
@@ -1055,10 +1055,10 @@ func (ec *executionContext) _Author_author_id(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalString(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1211,10 +1211,10 @@ func (ec *executionContext) _Book_book_id(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalString(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1238,10 +1238,10 @@ func (ec *executionContext) _Book_location_id(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1265,10 +1265,10 @@ func (ec *executionContext) _Book_owner_id(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1292,10 +1292,10 @@ func (ec *executionContext) _Book_author_id(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1319,10 +1319,10 @@ func (ec *executionContext) _Book_publisher_id(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1521,10 +1521,10 @@ func (ec *executionContext) _Location_location_id(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalString(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1893,7 +1893,7 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteUser(rctx, args["user_id"].(string))
+		return ec.resolvers.Mutation().DeleteUser(rctx, args["user_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1901,10 +1901,10 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1926,7 +1926,7 @@ func (ec *executionContext) _Mutation_deleteAuthor(ctx context.Context, field gr
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteAuthor(rctx, args["author_id"].(string))
+		return ec.resolvers.Mutation().DeleteAuthor(rctx, args["author_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1934,10 +1934,10 @@ func (ec *executionContext) _Mutation_deleteAuthor(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1959,7 +1959,7 @@ func (ec *executionContext) _Mutation_deletePublisher(ctx context.Context, field
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeletePublisher(rctx, args["publisher_id"].(string))
+		return ec.resolvers.Mutation().DeletePublisher(rctx, args["publisher_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1967,10 +1967,10 @@ func (ec *executionContext) _Mutation_deletePublisher(ctx context.Context, field
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -1992,7 +1992,7 @@ func (ec *executionContext) _Mutation_deleteRental(ctx context.Context, field gr
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteRental(rctx, args["rental_id"].(string))
+		return ec.resolvers.Mutation().DeleteRental(rctx, args["rental_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2000,10 +2000,10 @@ func (ec *executionContext) _Mutation_deleteRental(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -2025,7 +2025,7 @@ func (ec *executionContext) _Mutation_deleteBook(ctx context.Context, field grap
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteBook(rctx, args["book_id"].(string))
+		return ec.resolvers.Mutation().DeleteBook(rctx, args["book_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2033,10 +2033,10 @@ func (ec *executionContext) _Mutation_deleteBook(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -2058,7 +2058,7 @@ func (ec *executionContext) _Mutation_deleteLocation(ctx context.Context, field 
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteLocation(rctx, args["location_id"].(string))
+		return ec.resolvers.Mutation().DeleteLocation(rctx, args["location_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2066,10 +2066,10 @@ func (ec *executionContext) _Mutation_deleteLocation(ctx context.Context, field 
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 var publisherImplementors = []string{"Publisher"}
@@ -2128,10 +2128,10 @@ func (ec *executionContext) _Publisher_publisher_id(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalString(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -2664,7 +2664,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().User(rctx, args["user_id"].(string))
+		return ec.resolvers.Query().User(rctx, args["user_id"].(int))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -2699,7 +2699,7 @@ func (ec *executionContext) _Query_author(ctx context.Context, field graphql.Col
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Author(rctx, args["author_id"].(string))
+		return ec.resolvers.Query().Author(rctx, args["author_id"].(int))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -2734,7 +2734,7 @@ func (ec *executionContext) _Query_publisher(ctx context.Context, field graphql.
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Publisher(rctx, args["publisher_id"].(string))
+		return ec.resolvers.Query().Publisher(rctx, args["publisher_id"].(int))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -2769,7 +2769,7 @@ func (ec *executionContext) _Query_rental(ctx context.Context, field graphql.Col
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Rental(rctx, args["rental_id"].(string))
+		return ec.resolvers.Query().Rental(rctx, args["rental_id"].(int))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -2804,7 +2804,7 @@ func (ec *executionContext) _Query_book(ctx context.Context, field graphql.Colle
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Book(rctx, args["book_id"].(string))
+		return ec.resolvers.Query().Book(rctx, args["book_id"].(int))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -2839,7 +2839,7 @@ func (ec *executionContext) _Query_location(ctx context.Context, field graphql.C
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Location(rctx, args["location_id"].(string))
+		return ec.resolvers.Query().Location(rctx, args["location_id"].(int))
 	})
 	if resTmp == nil {
 		return graphql.Null
@@ -2995,10 +2995,10 @@ func (ec *executionContext) _Rental_rental_id(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalString(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -3022,10 +3022,10 @@ func (ec *executionContext) _Rental_book_id(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -3049,10 +3049,10 @@ func (ec *executionContext) _Rental_user_id(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -3212,10 +3212,10 @@ func (ec *executionContext) _User_user_id(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalString(res)
+	return graphql.MarshalInt(res)
 }
 
 // nolint: vetshadow
@@ -4804,12 +4804,6 @@ func UnmarshalNewAuthor(v interface{}) (NewAuthor, error) {
 
 	for k, v := range asMap {
 		switch k {
-		case "authorID":
-			var err error
-			it.AuthorID, err = graphql.UnmarshalString(v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 			it.Name, err = graphql.UnmarshalString(v)
@@ -4834,33 +4828,27 @@ func UnmarshalNewBook(v interface{}) (NewBook, error) {
 
 	for k, v := range asMap {
 		switch k {
-		case "bookID":
-			var err error
-			it.BookID, err = graphql.UnmarshalString(v)
-			if err != nil {
-				return it, err
-			}
 		case "locationID":
 			var err error
-			it.LocationID, err = graphql.UnmarshalString(v)
+			it.LocationID, err = graphql.UnmarshalInt(v)
 			if err != nil {
 				return it, err
 			}
 		case "ownerID":
 			var err error
-			it.OwnerID, err = graphql.UnmarshalString(v)
+			it.OwnerID, err = graphql.UnmarshalInt(v)
 			if err != nil {
 				return it, err
 			}
 		case "authorID":
 			var err error
-			it.AuthorID, err = graphql.UnmarshalString(v)
+			it.AuthorID, err = graphql.UnmarshalInt(v)
 			if err != nil {
 				return it, err
 			}
 		case "publisherID":
 			var err error
-			it.PublisherID, err = graphql.UnmarshalString(v)
+			it.PublisherID, err = graphql.UnmarshalInt(v)
 			if err != nil {
 				return it, err
 			}
@@ -4906,12 +4894,6 @@ func UnmarshalNewLocation(v interface{}) (NewLocation, error) {
 
 	for k, v := range asMap {
 		switch k {
-		case "locationID":
-			var err error
-			it.LocationID, err = graphql.UnmarshalString(v)
-			if err != nil {
-				return it, err
-			}
 		case "building":
 			var err error
 			it.Building, err = graphql.UnmarshalString(v)
@@ -4936,12 +4918,6 @@ func UnmarshalNewPublisher(v interface{}) (NewPublisher, error) {
 
 	for k, v := range asMap {
 		switch k {
-		case "publisherID":
-			var err error
-			it.PublisherID, err = graphql.UnmarshalString(v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 			it.Name, err = graphql.UnmarshalString(v)
@@ -4960,21 +4936,15 @@ func UnmarshalNewRental(v interface{}) (NewRental, error) {
 
 	for k, v := range asMap {
 		switch k {
-		case "rentalID":
-			var err error
-			it.RentalID, err = graphql.UnmarshalString(v)
-			if err != nil {
-				return it, err
-			}
 		case "bookID":
 			var err error
-			it.BookID, err = graphql.UnmarshalString(v)
+			it.BookID, err = graphql.UnmarshalInt(v)
 			if err != nil {
 				return it, err
 			}
 		case "userID":
 			var err error
-			it.UserID, err = graphql.UnmarshalString(v)
+			it.UserID, err = graphql.UnmarshalInt(v)
 			if err != nil {
 				return it, err
 			}
@@ -5008,12 +4978,6 @@ func UnmarshalNewUser(v interface{}) (NewUser, error) {
 
 	for k, v := range asMap {
 		switch k {
-		case "userID":
-			var err error
-			it.UserID, err = graphql.UnmarshalString(v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 			it.Name, err = graphql.UnmarshalString(v)
@@ -5075,7 +5039,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 
 var parsedSchema = gqlparser.MustLoadSchema(
 	&ast.Source{Name: "schema.graphql", Input: `type User {
-    user_id: String!
+    user_id: Int!
     name: String!
     surname: String!
     email: String!
@@ -5084,31 +5048,31 @@ var parsedSchema = gqlparser.MustLoadSchema(
 }
 
 type Author {
-    author_id: String!
+    author_id: Int!
     name: String!
     surname: String!
 }
 
 type Publisher {
-    publisher_id: String!
+    publisher_id: Int!
     name: String!
 }
 
 type Rental {
-    rental_id: String!
-    book_id: ID!
-    user_id: ID!
+    rental_id: Int!
+    book_id: Int!
+    user_id: Int!
     start_date: Date!
     expected_end_date: Date!
     end_date: Date!
 }
 
 type Book {
-    book_id: String!
-    location_id: ID!
-    owner_id: ID!
-    author_id: ID!
-    publisher_id: ID!
+    book_id: Int!
+    location_id: Int!
+    owner_id: Int!
+    author_id: Int!
+    publisher_id: Int!
     title: String!
     isbn: String!
     edition: Int!
@@ -5117,13 +5081,12 @@ type Book {
 }
 
 type Location {
-    location_id: String!
+    location_id: Int!
     building: String!
     room: String!
 }
 
 input NewUser {
-    userID: String!
     name: String!
     surname: String!
     email: String!
@@ -5131,31 +5094,27 @@ input NewUser {
 }
 
 input NewAuthor {
-    authorID: String!
     name: String!
     surname: String!
 }
 
 input NewPublisher {
-    publisherID: String!
     name: String!
 }
 
 input NewRental {
-    rentalID: String!
-    bookID: String!
-    userID: String!
+    bookID: Int!
+    userID: Int!
     start_date: Date!
     expected_end_date: Date!
     end_date: Date!
 }
 
 input NewBook {
-    bookID: String!
-    locationID: String!
-    ownerID: String!
-    authorID: String!
-    publisherID: String!
+    locationID: Int!
+    ownerID: Int!
+    authorID: Int!
+    publisherID: Int!
     title: String!
     isbn: String!
     edition: Int!
@@ -5164,7 +5123,6 @@ input NewBook {
 }
 
 input NewLocation {
-    locationID: String!
     building: String!
     room: String!
 }
@@ -5177,12 +5135,12 @@ type Mutation {
     createBook(input: NewBook!): Book!
     createLocation(input: NewLocation): Location!
 
-    deleteUser(user_id: ID!): ID!
-    deleteAuthor(author_id: ID!): ID!
-    deletePublisher(publisher_id: ID!): ID!
-    deleteRental(rental_id: ID!): ID!
-    deleteBook(book_id: ID!): ID!
-    deleteLocation(location_id: ID!): ID!
+    deleteUser(user_id: Int!): Int!
+    deleteAuthor(author_id: Int!): Int!
+    deletePublisher(publisher_id: Int!): Int!
+    deleteRental(rental_id: Int!): Int!
+    deleteBook(book_id: Int!): Int!
+    deleteLocation(location_id: Int!): Int!
 }
 
 type Query {
@@ -5192,12 +5150,12 @@ type Query {
     rentals: [Rental!]!
     books: [Book!]!
     locations: [Location!]!
-    user(user_id: ID!): User
-    author(author_id: ID!): Author
-    publisher(publisher_id: ID!): Publisher
-    rental(rental_id: ID!): Rental
-    book(book_id: ID!): Book
-    location(location_id: ID!): Location
+    user(user_id: Int!): User
+    author(author_id: Int!): Author
+    publisher(publisher_id: Int!): Publisher
+    rental(rental_id: Int!): Rental
+    book(book_id: Int!): Book
+    location(location_id: Int!): Location
 }
 
 scalar Date

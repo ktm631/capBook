@@ -3,17 +3,17 @@
 package capBook
 
 type Author struct {
-	AuthorID string `json:"author_id"`
+	AuthorID int    `json:"author_id"`
 	Name     string `json:"name"`
 	Surname  string `json:"surname"`
 }
 
 type Book struct {
-	BookID         string `json:"book_id"`
-	LocationID     string `json:"location_id"`
-	OwnerID        string `json:"owner_id"`
-	AuthorID       string `json:"author_id"`
-	PublisherID    string `json:"publisher_id"`
+	BookID         int    `json:"book_id"`
+	LocationID     int    `json:"location_id"`
+	OwnerID        int    `json:"owner_id"`
+	AuthorID       int    `json:"author_id"`
+	PublisherID    int    `json:"publisher_id"`
 	Title          string `json:"title"`
 	Isbn           string `json:"isbn"`
 	Edition        int    `json:"edition"`
@@ -22,23 +22,21 @@ type Book struct {
 }
 
 type Location struct {
-	LocationID string `json:"location_id"`
+	LocationID int    `json:"location_id"`
 	Building   string `json:"building"`
 	Room       string `json:"room"`
 }
 
 type NewAuthor struct {
-	AuthorID string `json:"authorID"`
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
+	Name    string `json:"name"`
+	Surname string `json:"surname"`
 }
 
 type NewBook struct {
-	BookID         string `json:"bookID"`
-	LocationID     string `json:"locationID"`
-	OwnerID        string `json:"ownerID"`
-	AuthorID       string `json:"authorID"`
-	PublisherID    string `json:"publisherID"`
+	LocationID     int    `json:"locationID"`
+	OwnerID        int    `json:"ownerID"`
+	AuthorID       int    `json:"authorID"`
+	PublisherID    int    `json:"publisherID"`
 	Title          string `json:"title"`
 	Isbn           string `json:"isbn"`
 	Edition        int    `json:"edition"`
@@ -47,27 +45,23 @@ type NewBook struct {
 }
 
 type NewLocation struct {
-	LocationID string `json:"locationID"`
-	Building   string `json:"building"`
-	Room       string `json:"room"`
+	Building string `json:"building"`
+	Room     string `json:"room"`
 }
 
 type NewPublisher struct {
-	PublisherID string `json:"publisherID"`
-	Name        string `json:"name"`
+	Name string `json:"name"`
 }
 
 type NewRental struct {
-	RentalID        string `json:"rentalID"`
-	BookID          string `json:"bookID"`
-	UserID          string `json:"userID"`
+	BookID          int    `json:"bookID"`
+	UserID          int    `json:"userID"`
 	StartDate       string `json:"start_date"`
 	ExpectedEndDate string `json:"expected_end_date"`
 	EndDate         string `json:"end_date"`
 }
 
 type NewUser struct {
-	UserID  string `json:"userID"`
 	Name    string `json:"name"`
 	Surname string `json:"surname"`
 	Email   string `json:"email"`
@@ -75,21 +69,21 @@ type NewUser struct {
 }
 
 type Publisher struct {
-	PublisherID string `json:"publisher_id"`
+	PublisherID int    `json:"publisher_id"`
 	Name        string `json:"name"`
 }
 
 type Rental struct {
-	RentalID        string `json:"rental_id"`
-	BookID          string `json:"book_id"`
-	UserID          string `json:"user_id"`
+	RentalID        int    `json:"rental_id"`
+	BookID          int    `json:"book_id"`
+	UserID          int    `json:"user_id"`
 	StartDate       string `json:"start_date"`
 	ExpectedEndDate string `json:"expected_end_date"`
 	EndDate         string `json:"end_date"`
 }
 
 type User struct {
-	UserID   string `json:"user_id"`
+	UserID   int    `json:"user_id"`
 	Name     string `json:"name"`
 	Surname  string `json:"surname"`
 	Email    string `json:"email"`

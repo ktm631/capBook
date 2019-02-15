@@ -1,7 +1,6 @@
 package capBook
 
 import (
-	"capBook/database_config"
 	"context"
 )
 
@@ -23,15 +22,7 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input NewAuthor) (A
 	panic("not implemented")
 }
 func (r *mutationResolver) CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
-	var db = database_config.DbConn()
-	var publisher Publisher
-	publisher.Name = input.Name
-	//c.BindJSON(&publisher)
-
-	db.Create(&publisher)
-	return publisher, nil
-	//c.JSON(200, publisher)
-	//panic("not implemented")
+	panic("not implemented")
 }
 func (r *mutationResolver) CreateRental(ctx context.Context, input NewRental) (Rental, error) {
 	panic("not implemented")
@@ -42,26 +33,22 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input NewBook) (Book,
 func (r *mutationResolver) CreateLocation(ctx context.Context, input *NewLocation) (Location, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) DeleteUser(ctx context.Context, user_id string) (string, error) {
+func (r *mutationResolver) DeleteUser(ctx context.Context, user_id int) (int, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id string) (string, error) {
+func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id int) (int, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) DeletePublisher(ctx context.Context, publisher_id string) (string, error) {
-	var db = database_config.DbConn()
-	var publisher Publisher
-	db.Where("publisher_id = ?", publisher_id).Delete(&publisher)
-	return "successfully deleted publisher with id" + publisher_id, nil
-}
-
-func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id string) (string, error) {
+func (r *mutationResolver) DeletePublisher(ctx context.Context, publisher_id int) (int, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) DeleteBook(ctx context.Context, book_id string) (string, error) {
+func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id int) (int, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id string) (string, error) {
+func (r *mutationResolver) DeleteBook(ctx context.Context, book_id int) (int, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) (int, error) {
 	panic("not implemented")
 }
 
@@ -74,12 +61,7 @@ func (r *queryResolver) Authors(ctx context.Context) ([]Author, error) {
 	panic("not implemented")
 }
 func (r *queryResolver) Publishers(ctx context.Context) ([]Publisher, error) {
-	var db = database_config.DbConn()
-	var publishers []Publisher
-
-	db.Find(&publishers)
-	return publishers, nil
-	//panic("not implemented")
+	panic("not implemented")
 }
 func (r *queryResolver) Rentals(ctx context.Context) ([]Rental, error) {
 	panic("not implemented")
@@ -90,24 +72,21 @@ func (r *queryResolver) Books(ctx context.Context) ([]Book, error) {
 func (r *queryResolver) Locations(ctx context.Context) ([]Location, error) {
 	panic("not implemented")
 }
-func (r *queryResolver) User(ctx context.Context, user_id string) (*User, error) {
+func (r *queryResolver) User(ctx context.Context, user_id int) (*User, error) {
 	panic("not implemented")
 }
-func (r *queryResolver) Author(ctx context.Context, author_id string) (*Author, error) {
+func (r *queryResolver) Author(ctx context.Context, author_id int) (*Author, error) {
 	panic("not implemented")
 }
-func (r *queryResolver) Publisher(ctx context.Context, publisher_id string) (*Publisher, error) {
-	var db = database_config.DbConn()
-	var publisher Publisher
-	db.Where("publisher_id = ?", publisher_id).First(&publisher)
-	return &publisher, nil
-}
-func (r *queryResolver) Rental(ctx context.Context, rental_id string) (*Rental, error) {
+func (r *queryResolver) Publisher(ctx context.Context, publisher_id int) (*Publisher, error) {
 	panic("not implemented")
 }
-func (r *queryResolver) Book(ctx context.Context, book_id string) (*Book, error) {
+func (r *queryResolver) Rental(ctx context.Context, rental_id int) (*Rental, error) {
 	panic("not implemented")
 }
-func (r *queryResolver) Location(ctx context.Context, location_id string) (*Location, error) {
+func (r *queryResolver) Book(ctx context.Context, book_id int) (*Book, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Location(ctx context.Context, location_id int) (*Location, error) {
 	panic("not implemented")
 }
