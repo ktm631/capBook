@@ -17,7 +17,15 @@ func (r *Resolver) Query() QueryResolver {
 type mutationResolver struct{ *Resolver }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (User, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	user.Name = input.Name
+	user.Surname = input.Surname
+	user.Email = input.Email
+	user.Password = input.Password
+	user.IsAdmin = input.IsAdmin
+	db.Create(&user)
+	return user, nil
 }
 func (r *mutationResolver) CreateAuthor(ctx context.Context, input NewAuthor) (Author, error) {
 	var db = database_config.DbConn()
@@ -74,7 +82,10 @@ func (r *mutationResolver) CreateLocation(ctx context.Context, input *NewLocatio
 	return location, nil
 }
 func (r *mutationResolver) DeleteUser(ctx context.Context, user_id int) (int, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	db.Where("user_id = ?", user_id).Delete(&user)
+	return user_id, nil
 }
 func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id int) (int, error) {
 	var db = database_config.DbConn()
@@ -97,18 +108,27 @@ func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id int) (int
 func (r *mutationResolver) DeleteBook(ctx context.Context, book_id int) (int, error) {
 	var db = database_config.DbConn()
 	var book Book
-	db.Where("rental_id = ?", book_id).Delete(&book)
+	db.Where("book_id = ?", book_id).Delete(&book)
 	return book_id, nil
 }
 func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) (int, error) {
 	var db = database_config.DbConn()
 	var location Location
-	db.Where("rental_id = ?", location_id).Delete(&location)
+	db.Where("location_id = ?", location_id).Delete(&location)
 	return location_id, nil
 }
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, input NewUser, user_id int) (User, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	db.Where("user_id = ?", user_id).First(&user)
+	user.Name = input.Name
+	user.Surname = input.Surname
+	user.Email = input.Email
+	user.Password = input.Password
+	user.IsAdmin = input.IsAdmin
+	db.Save(&user)
+	return user, nil
 }
 func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor, author_id int) (Author, error) {
 	var db = database_config.DbConn()
@@ -120,10 +140,25 @@ func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor, au
 	return author, nil
 }
 func (r *mutationResolver) UpdatePublisher(ctx context.Context, input NewPublisher, publisher_id int) (Publisher, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var publisher Publisher
+	db.Where("publisher_id = ?", publisher_id).First(&publisher)
+	publisher.Name = input.Name
+	db.Save(&publisher)
+	return publisher, nil
 }
 func (r *mutationResolver) UpdateRental(ctx context.Context, input NewRental, rental_id int) (Rental, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var rental Rental
+	db.Where("rental_id = ?", rental_id).First(&rental)
+	rental.UserID = input.UserID
+	rental.BookID = input.BookID
+	rental.ExpectedEndDate = input.ExpectedEndDate
+	rental.EndDate = input.EndDate
+	rental.StartDate = input.StartDate
+
+	db.Save(&rental)
+	return rental, nil
 }
 func (r *mutationResolver) UpdateBook(ctx context.Context, input NewBook, book_id int) (Book, error) {
 	var db = database_config.DbConn()
@@ -212,18 +247,18 @@ func (r *queryResolver) Publisher(ctx context.Context, publisher_id int) (*Publi
 func (r *queryResolver) Rental(ctx context.Context, rental_id int) (*Rental, error) {
 	var db = database_config.DbConn()
 	var rental Rental
-	db.Where("publisher_id = ?", rental_id).First(&rental)
+	db.Where("rental_id = ?", rental_id).First(&rental)
 	return &rental, nil
 }
 func (r *queryResolver) Book(ctx context.Context, book_id int) (*Book, error) {
 	var db = database_config.DbConn()
 	var book Book
-	db.Where("publisher_id = ?", book_id).First(&book)
+	db.Where("book_id = ?", book_id).First(&book)
 	return &book, nil
 }
 func (r *queryResolver) Location(ctx context.Context, location_id int) (*Location, error) {
 	var db = database_config.DbConn()
 	var location Location
-	db.Where("publisher_id = ?", location_id).First(&location)
+	db.Where("location_id = ?", location_id).First(&location)
 	return &location, nil
 }
