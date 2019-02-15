@@ -82,7 +82,10 @@ func (r *mutationResolver) CreateLocation(ctx context.Context, input *NewLocatio
 	return location, nil
 }
 func (r *mutationResolver) DeleteUser(ctx context.Context, user_id int) (int, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	db.Where("user_id = ?", user_id).Delete(&user)
+	return user_id, nil
 }
 func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id int) (int, error) {
 	var db = database_config.DbConn()
@@ -116,7 +119,16 @@ func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) 
 }
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, input NewUser, user_id int) (User, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	db.Where("user_id = ?", user_id).First(&user)
+	user.Name = input.Name
+	user.Surname = input.Surname
+	user.Email = input.Email
+	user.Password = input.Password
+	user.IsAdmin = input.IsAdmin
+	db.Save(&user)
+	return user, nil
 }
 func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor, author_id int) (Author, error) {
 	var db = database_config.DbConn()
