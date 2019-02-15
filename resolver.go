@@ -126,10 +126,28 @@ func (r *mutationResolver) UpdateRental(ctx context.Context, input NewRental, re
 	panic("not implemented")
 }
 func (r *mutationResolver) UpdateBook(ctx context.Context, input NewBook, book_id int) (Book, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var book Book
+	db.Where("book_id = ?", book_id).First(&book)
+	book.AuthorID = input.AuthorID
+	book.DescriptionURL = input.DescriptionURL
+	book.Edition = input.Edition
+	book.Isbn = input.Isbn
+	book.IsFree = input.IsFree
+	book.PublisherID = input.PublisherID
+	book.Title = input.Title
+	db.Save(&book)
+	return book, nil
 }
+
 func (r *mutationResolver) UpdateLocation(ctx context.Context, input NewLocation, location_id int) (Location, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var location Location
+	db.Where("location_id = ?", location_id).First(&location)
+	location.Building = input.Building
+	location.Room = input.Room
+	db.Save(&location)
+	return location, nil
 }
 
 type queryResolver struct{ *Resolver }
@@ -174,10 +192,16 @@ func (r *queryResolver) Locations(ctx context.Context) ([]Location, error) {
 	return locations, nil
 }
 func (r *queryResolver) User(ctx context.Context, user_id int) (*User, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var user User
+	db.Where("user_id = ?", user_id).First(&user)
+	return &user, nil
 }
 func (r *queryResolver) Author(ctx context.Context, author_id int) (*Author, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var author Author
+	db.Where("author_id = ?", author_id).First(&author)
+	return &author, nil
 }
 func (r *queryResolver) Publisher(ctx context.Context, publisher_id int) (*Publisher, error) {
 	var db = database_config.DbConn()
