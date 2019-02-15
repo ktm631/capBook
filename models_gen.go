@@ -2,31 +2,6 @@
 
 package capBook
 
-type Author struct {
-	AuthorID int    `json:"author_id"`
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
-}
-
-type Book struct {
-	BookID         int    `json:"book_id"`
-	LocationID     int    `json:"location_id"`
-	OwnerID        int    `json:"owner_id"`
-	AuthorID       int    `json:"author_id"`
-	PublisherID    int    `json:"publisher_id"`
-	Title          string `json:"title"`
-	Isbn           string `json:"isbn"`
-	Edition        int    `json:"edition"`
-	IsFree         bool   `json:"is_free"`
-	DescriptionURL string `json:"description_url"`
-}
-
-type Location struct {
-	LocationID int    `json:"location_id"`
-	Building   string `json:"building"`
-	Room       string `json:"room"`
-}
-
 type NewAuthor struct {
 	Name    string `json:"name"`
 	Surname string `json:"surname"`
@@ -66,27 +41,4 @@ type NewUser struct {
 	Surname string `json:"surname"`
 	Email   string `json:"email"`
 	IsAdmin bool   `json:"is_admin"`
-}
-
-type Publisher struct {
-	PublisherID int    `json:"publisher_id"`
-	Name        string `json:"name"`
-}
-
-type Rental struct {
-	RentalID        int    `json:"rental_id"`
-	BookID          int    `json:"book_id"`
-	UserID          int    `json:"user_id"`
-	StartDate       string `json:"start_date"`
-	ExpectedEndDate string `json:"expected_end_date"`
-	EndDate         string `json:"end_date"`
-}
-
-type User struct {
-	UserID   int    `json:"user_id"`
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	IsAdmin  bool   `json:"is_admin"`
 }

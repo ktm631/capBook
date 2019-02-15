@@ -1,6 +1,7 @@
 package capBook
 
 import (
+	"capBook/database_config"
 	"context"
 )
 
@@ -22,7 +23,13 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, input NewAuthor) (A
 	panic("not implemented")
 }
 func (r *mutationResolver) CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var publisher Publisher
+	publisher.Name = input.Name
+	//c.BindJSON(&publisher)
+
+	db.Create(&publisher)
+	return publisher, nil
 }
 func (r *mutationResolver) CreateRental(ctx context.Context, input NewRental) (Rental, error) {
 	panic("not implemented")

@@ -4,7 +4,7 @@
 # for detailed .gqlgen.yml documentation.
 
 schema:
-- schema.graphql
+  - schema.graphql
 exec:
   filename: generated.go
 model:
@@ -12,3 +12,16 @@ model:
 resolver:
   filename: resolver.go
   type: Resolver
+models:
+  User:
+    model.User
+  Publisher:
+    model.Publisher
+  Author:
+    model.Author
+  Book:
+    model.Book
+  Location:
+    model.Location
+  Rental:
+    model.Rental
