@@ -47,10 +47,10 @@ type ComplexityRoot struct {
 
 	Book struct {
 		BookId         func(childComplexity int) int
-		Location       func(childComplexity int) int
-		Owner          func(childComplexity int) int
-		Author         func(childComplexity int) int
-		Publisher      func(childComplexity int) int
+		LocationId     func(childComplexity int) int
+		OwnerId        func(childComplexity int) int
+		AuthorId       func(childComplexity int) int
+		PublisherId    func(childComplexity int) int
 		Title          func(childComplexity int) int
 		Isbn           func(childComplexity int) int
 		Edition        func(childComplexity int) int
@@ -101,19 +101,20 @@ type ComplexityRoot struct {
 
 	Rental struct {
 		RentalId        func(childComplexity int) int
-		Book            func(childComplexity int) int
-		User            func(childComplexity int) int
+		BookId          func(childComplexity int) int
+		UserId          func(childComplexity int) int
 		StartDate       func(childComplexity int) int
 		ExpectedEndDate func(childComplexity int) int
 		EndDate         func(childComplexity int) int
 	}
 
 	User struct {
-		UserId  func(childComplexity int) int
-		Name    func(childComplexity int) int
-		Surname func(childComplexity int) int
-		Email   func(childComplexity int) int
-		IsAdmin func(childComplexity int) int
+		UserId   func(childComplexity int) int
+		Name     func(childComplexity int) int
+		Surname  func(childComplexity int) int
+		Email    func(childComplexity int) int
+		Password func(childComplexity int) int
+		IsAdmin  func(childComplexity int) int
 	}
 }
 
@@ -507,33 +508,33 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.BookId(childComplexity), true
 
-	case "Book.location":
-		if e.complexity.Book.Location == nil {
+	case "Book.location_id":
+		if e.complexity.Book.LocationId == nil {
 			break
 		}
 
-		return e.complexity.Book.Location(childComplexity), true
+		return e.complexity.Book.LocationId(childComplexity), true
 
-	case "Book.owner":
-		if e.complexity.Book.Owner == nil {
+	case "Book.owner_id":
+		if e.complexity.Book.OwnerId == nil {
 			break
 		}
 
-		return e.complexity.Book.Owner(childComplexity), true
+		return e.complexity.Book.OwnerId(childComplexity), true
 
-	case "Book.author":
-		if e.complexity.Book.Author == nil {
+	case "Book.author_id":
+		if e.complexity.Book.AuthorId == nil {
 			break
 		}
 
-		return e.complexity.Book.Author(childComplexity), true
+		return e.complexity.Book.AuthorId(childComplexity), true
 
-	case "Book.publisher":
-		if e.complexity.Book.Publisher == nil {
+	case "Book.publisher_id":
+		if e.complexity.Book.PublisherId == nil {
 			break
 		}
 
-		return e.complexity.Book.Publisher(childComplexity), true
+		return e.complexity.Book.PublisherId(childComplexity), true
 
 	case "Book.title":
 		if e.complexity.Book.Title == nil {
@@ -870,19 +871,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Rental.RentalId(childComplexity), true
 
-	case "Rental.book":
-		if e.complexity.Rental.Book == nil {
+	case "Rental.book_id":
+		if e.complexity.Rental.BookId == nil {
 			break
 		}
 
-		return e.complexity.Rental.Book(childComplexity), true
+		return e.complexity.Rental.BookId(childComplexity), true
 
-	case "Rental.user":
-		if e.complexity.Rental.User == nil {
+	case "Rental.user_id":
+		if e.complexity.Rental.UserId == nil {
 			break
 		}
 
-		return e.complexity.Rental.User(childComplexity), true
+		return e.complexity.Rental.UserId(childComplexity), true
 
 	case "Rental.start_date":
 		if e.complexity.Rental.StartDate == nil {
@@ -932,6 +933,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Email(childComplexity), true
+
+	case "User.password":
+		if e.complexity.User.Password == nil {
+			break
+		}
+
+		return e.complexity.User.Password(childComplexity), true
 
 	case "User.is_admin":
 		if e.complexity.User.IsAdmin == nil {
@@ -1002,9 +1010,6 @@ func (ec *executionContext) _Author(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = graphql.MarshalString("Author")
 		case "author_id":
 			out.Values[i] = ec._Author_author_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
 		case "name":
 			out.Values[i] = ec._Author_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -1042,15 +1047,16 @@ func (ec *executionContext) _Author_author_id(ctx context.Context, field graphql
 		return obj.AuthorID, nil
 	})
 	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+
+	if res == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalID(*res)
 }
 
 // nolint: vetshadow
@@ -1123,26 +1129,23 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = graphql.MarshalString("Book")
 		case "book_id":
 			out.Values[i] = ec._Book_book_id(ctx, field, obj)
+		case "location_id":
+			out.Values[i] = ec._Book_location_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
-		case "location":
-			out.Values[i] = ec._Book_location(ctx, field, obj)
+		case "owner_id":
+			out.Values[i] = ec._Book_owner_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
-		case "owner":
-			out.Values[i] = ec._Book_owner(ctx, field, obj)
+		case "author_id":
+			out.Values[i] = ec._Book_author_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
-		case "author":
-			out.Values[i] = ec._Book_author(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
-		case "publisher":
-			out.Values[i] = ec._Book_publisher(ctx, field, obj)
+		case "publisher_id":
+			out.Values[i] = ec._Book_publisher_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
@@ -1198,6 +1201,34 @@ func (ec *executionContext) _Book_book_id(ctx context.Context, field graphql.Col
 		return obj.BookID, nil
 	})
 	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalID(*res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Book_location_id(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Book",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LocationID, nil
+	})
+	if resTmp == nil {
 		if !ec.HasError(rctx) {
 			ec.Errorf(ctx, "must not be null")
 		}
@@ -1210,7 +1241,7 @@ func (ec *executionContext) _Book_book_id(ctx context.Context, field graphql.Col
 }
 
 // nolint: vetshadow
-func (ec *executionContext) _Book_location(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
+func (ec *executionContext) _Book_owner_id(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
 	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
 	rctx := &graphql.ResolverContext{
@@ -1222,7 +1253,7 @@ func (ec *executionContext) _Book_location(ctx context.Context, field graphql.Co
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Location, nil
+		return obj.OwnerID, nil
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1230,15 +1261,14 @@ func (ec *executionContext) _Book_location(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.(Location)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._Location(ctx, field.Selections, &res)
+	return graphql.MarshalID(res)
 }
 
 // nolint: vetshadow
-func (ec *executionContext) _Book_owner(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
+func (ec *executionContext) _Book_author_id(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
 	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
 	rctx := &graphql.ResolverContext{
@@ -1250,7 +1280,7 @@ func (ec *executionContext) _Book_owner(ctx context.Context, field graphql.Colle
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Owner, nil
+		return obj.AuthorID, nil
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1258,15 +1288,14 @@ func (ec *executionContext) _Book_owner(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(User)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._User(ctx, field.Selections, &res)
+	return graphql.MarshalID(res)
 }
 
 // nolint: vetshadow
-func (ec *executionContext) _Book_author(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
+func (ec *executionContext) _Book_publisher_id(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
 	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
 	rctx := &graphql.ResolverContext{
@@ -1278,7 +1307,7 @@ func (ec *executionContext) _Book_author(ctx context.Context, field graphql.Coll
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Author, nil
+		return obj.PublisherID, nil
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -1286,39 +1315,10 @@ func (ec *executionContext) _Book_author(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.(Author)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._Author(ctx, field.Selections, &res)
-}
-
-// nolint: vetshadow
-func (ec *executionContext) _Book_publisher(ctx context.Context, field graphql.CollectedField, obj *Book) graphql.Marshaler {
-	ctx = ec.Tracer.StartFieldExecution(ctx, field)
-	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
-	rctx := &graphql.ResolverContext{
-		Object: "Book",
-		Args:   nil,
-		Field:  field,
-	}
-	ctx = graphql.WithResolverContext(ctx, rctx)
-	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
-	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Publisher, nil
-	})
-	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(Publisher)
-	rctx.Result = res
-	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._Publisher(ctx, field.Selections, &res)
+	return graphql.MarshalID(res)
 }
 
 // nolint: vetshadow
@@ -1472,9 +1472,6 @@ func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet,
 			out.Values[i] = graphql.MarshalString("Location")
 		case "location_id":
 			out.Values[i] = ec._Location_location_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
 		case "building":
 			out.Values[i] = ec._Location_building(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -1512,15 +1509,16 @@ func (ec *executionContext) _Location_location_id(ctx context.Context, field gra
 		return obj.LocationID, nil
 	})
 	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+
+	if res == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalID(*res)
 }
 
 // nolint: vetshadow
@@ -2084,9 +2082,6 @@ func (ec *executionContext) _Publisher(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = graphql.MarshalString("Publisher")
 		case "publisher_id":
 			out.Values[i] = ec._Publisher_publisher_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
 		case "name":
 			out.Values[i] = ec._Publisher_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -2119,15 +2114,16 @@ func (ec *executionContext) _Publisher_publisher_id(ctx context.Context, field g
 		return obj.PublisherID, nil
 	})
 	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+
+	if res == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalID(*res)
 }
 
 // nolint: vetshadow
@@ -2931,16 +2927,13 @@ func (ec *executionContext) _Rental(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = graphql.MarshalString("Rental")
 		case "rental_id":
 			out.Values[i] = ec._Rental_rental_id(ctx, field, obj)
+		case "book_id":
+			out.Values[i] = ec._Rental_book_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
-		case "book":
-			out.Values[i] = ec._Rental_book(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
-		case "user":
-			out.Values[i] = ec._Rental_user(ctx, field, obj)
+		case "user_id":
+			out.Values[i] = ec._Rental_user_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
@@ -2986,6 +2979,34 @@ func (ec *executionContext) _Rental_rental_id(ctx context.Context, field graphql
 		return obj.RentalID, nil
 	})
 	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+
+	if res == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalID(*res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _Rental_book_id(ctx context.Context, field graphql.CollectedField, obj *Rental) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "Rental",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BookID, nil
+	})
+	if resTmp == nil {
 		if !ec.HasError(rctx) {
 			ec.Errorf(ctx, "must not be null")
 		}
@@ -2998,7 +3019,7 @@ func (ec *executionContext) _Rental_rental_id(ctx context.Context, field graphql
 }
 
 // nolint: vetshadow
-func (ec *executionContext) _Rental_book(ctx context.Context, field graphql.CollectedField, obj *Rental) graphql.Marshaler {
+func (ec *executionContext) _Rental_user_id(ctx context.Context, field graphql.CollectedField, obj *Rental) graphql.Marshaler {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
 	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
 	rctx := &graphql.ResolverContext{
@@ -3010,7 +3031,7 @@ func (ec *executionContext) _Rental_book(ctx context.Context, field graphql.Coll
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Book, nil
+		return obj.UserID, nil
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -3018,39 +3039,10 @@ func (ec *executionContext) _Rental_book(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.(Book)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._Book(ctx, field.Selections, &res)
-}
-
-// nolint: vetshadow
-func (ec *executionContext) _Rental_user(ctx context.Context, field graphql.CollectedField, obj *Rental) graphql.Marshaler {
-	ctx = ec.Tracer.StartFieldExecution(ctx, field)
-	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
-	rctx := &graphql.ResolverContext{
-		Object: "Rental",
-		Args:   nil,
-		Field:  field,
-	}
-	ctx = graphql.WithResolverContext(ctx, rctx)
-	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
-	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.User, nil
-	})
-	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(User)
-	rctx.Result = res
-	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	return ec._User(ctx, field.Selections, &res)
+	return graphql.MarshalID(res)
 }
 
 // nolint: vetshadow
@@ -3150,9 +3142,6 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = graphql.MarshalString("User")
 		case "user_id":
 			out.Values[i] = ec._User_user_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
 		case "name":
 			out.Values[i] = ec._User_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -3165,6 +3154,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "email":
 			out.Values[i] = ec._User_email(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
+		case "password":
+			out.Values[i] = ec._User_password(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalid = true
 			}
@@ -3200,15 +3194,16 @@ func (ec *executionContext) _User_user_id(ctx context.Context, field graphql.Col
 		return obj.UserID, nil
 	})
 	if resTmp == nil {
-		if !ec.HasError(rctx) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return graphql.MarshalID(res)
+
+	if res == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalID(*res)
 }
 
 // nolint: vetshadow
@@ -3279,6 +3274,33 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Email, nil
+	})
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return graphql.MarshalString(res)
+}
+
+// nolint: vetshadow
+func (ec *executionContext) _User_password(ctx context.Context, field graphql.CollectedField, obj *User) graphql.Marshaler {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() { ec.Tracer.EndFieldExecution(ctx) }()
+	rctx := &graphql.ResolverContext{
+		Object: "User",
+		Args:   nil,
+		Field:  field,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Password, nil
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -4770,6 +4792,12 @@ func UnmarshalNewAuthor(v interface{}) (NewAuthor, error) {
 
 	for k, v := range asMap {
 		switch k {
+		case "authorID":
+			var err error
+			it.AuthorID, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "name":
 			var err error
 			it.Name, err = graphql.UnmarshalString(v)
@@ -4794,6 +4822,12 @@ func UnmarshalNewBook(v interface{}) (NewBook, error) {
 
 	for k, v := range asMap {
 		switch k {
+		case "bookID":
+			var err error
+			it.BookID, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "locationID":
 			var err error
 			it.LocationID, err = graphql.UnmarshalString(v)
@@ -4860,6 +4894,12 @@ func UnmarshalNewLocation(v interface{}) (NewLocation, error) {
 
 	for k, v := range asMap {
 		switch k {
+		case "locationID":
+			var err error
+			it.LocationID, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "building":
 			var err error
 			it.Building, err = graphql.UnmarshalString(v)
@@ -4884,6 +4924,12 @@ func UnmarshalNewPublisher(v interface{}) (NewPublisher, error) {
 
 	for k, v := range asMap {
 		switch k {
+		case "publisherID":
+			var err error
+			it.PublisherID, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "name":
 			var err error
 			it.Name, err = graphql.UnmarshalString(v)
@@ -4902,6 +4948,12 @@ func UnmarshalNewRental(v interface{}) (NewRental, error) {
 
 	for k, v := range asMap {
 		switch k {
+		case "rentalID":
+			var err error
+			it.RentalID, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "bookID":
 			var err error
 			it.BookID, err = graphql.UnmarshalString(v)
@@ -4944,6 +4996,12 @@ func UnmarshalNewUser(v interface{}) (NewUser, error) {
 
 	for k, v := range asMap {
 		switch k {
+		case "userID":
+			var err error
+			it.UserID, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "name":
 			var err error
 			it.Name, err = graphql.UnmarshalString(v)
@@ -5005,39 +5063,40 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 
 var parsedSchema = gqlparser.MustLoadSchema(
 	&ast.Source{Name: "schema.graphql", Input: `type User {
-    user_id: ID!
+    user_id: ID
     name: String!
     surname: String!
     email: String!
+    password: String!
     is_admin: Boolean!
 }
 
 type Author {
-    author_id: ID!
+    author_id: ID
     name: String!
     surname: String!
 }
 
 type Publisher {
-    publisher_id: ID!
+    publisher_id: ID
     name: String!
 }
 
 type Rental {
-    rental_id: ID!
-    book: Book!
-    user: User!
+    rental_id: ID
+    book_id: ID!
+    user_id: ID!
     start_date: Date!
     expected_end_date: Date!
     end_date: Date!
 }
 
 type Book {
-    book_id: ID!
-    location: Location!
-    owner: User!
-    author: Author!
-    publisher: Publisher!
+    book_id: ID
+    location_id: ID!
+    owner_id: ID!
+    author_id: ID!
+    publisher_id: ID!
     title: String!
     isbn: String!
     edition: Int!
@@ -5046,12 +5105,13 @@ type Book {
 }
 
 type Location {
-    location_id: ID!
+    location_id: ID
     building: String!
     room: String!
 }
 
 input NewUser {
+    userID: String!
     name: String!
     surname: String!
     email: String!
@@ -5059,15 +5119,18 @@ input NewUser {
 }
 
 input NewAuthor {
+    authorID: String!
     name: String!
     surname: String!
 }
 
 input NewPublisher {
+    publisherID: String!
     name: String!
 }
 
 input NewRental {
+    rentalID: String!
     bookID: String!
     userID: String!
     start_date: Date!
@@ -5076,6 +5139,7 @@ input NewRental {
 }
 
 input NewBook {
+    bookID: String!
     locationID: String!
     ownerID: String!
     authorID: String!
@@ -5088,6 +5152,7 @@ input NewBook {
 }
 
 input NewLocation {
+    locationID: String!
     building: String!
     room: String!
 }
