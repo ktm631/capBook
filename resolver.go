@@ -1,6 +1,7 @@
 package capBook
 
 import (
+	"capBook/database_config"
 	"context"
 )
 
@@ -15,8 +16,16 @@ func (r *Resolver) Query() QueryResolver {
 
 type mutationResolver struct{ *Resolver }
 
-func (r *mutationResolver) CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
-	panic("not implemented")
+func (r *mutationResolver) CreatePublisher(c context.Context, input NewPublisher) (Publisher, error) {
+	var db = database_config.DbConn()
+	var publisher Publisher
+	publisher.Name = input.Name
+	//c.BindJSON(&publisher)
+
+	db.Create(&publisher)
+	return publisher, nil
+	//c.JSON(200, publisher)
+	//panic("not implemented")
 }
 func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (User, error) {
 	panic("not implemented")
