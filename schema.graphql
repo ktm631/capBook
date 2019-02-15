@@ -1,37 +1,38 @@
 type User {
-    user_id: ID!
+    user_id: ID
     name: String!
     surname: String!
     email: String!
+    password: String!
     is_admin: Boolean!
 }
 
 type Author {
-    author_id: ID!
+    author_id: ID
     name: String!
     surname: String!
 }
 
 type Publisher {
-    publisher_id: ID!
+    publisher_id: ID
     name: String!
 }
 
 type Rental {
-    rental_id: ID!
-    book: Book!
-    user: User!
+    rental_id: ID
+    book_id: ID!
+    user_id: ID!
     start_date: Date!
     expected_end_date: Date!
     end_date: Date!
 }
 
 type Book {
-    book_id: ID!
-    location: Location!
-    owner: User!
-    author: Author!
-    publisher: Publisher!
+    book_id: ID
+    location_id: ID!
+    owner_id: ID!
+    author_id: ID!
+    publisher_id: ID!
     title: String!
     isbn: String!
     edition: Int!
@@ -40,7 +41,7 @@ type Book {
 }
 
 type Location {
-    location_id: ID!
+    location_id: ID
     building: String!
     room: String!
 }
