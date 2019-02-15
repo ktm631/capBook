@@ -32,13 +32,41 @@ func (r *mutationResolver) CreatePublisher(ctx context.Context, input NewPublish
 	return publisher, nil
 }
 func (r *mutationResolver) CreateRental(ctx context.Context, input NewRental) (Rental, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var rental Rental
+	rental.StartDate = input.StartDate
+	rental.EndDate = input.EndDate
+	rental.ExpectedEndDate = input.ExpectedEndDate
+	rental.BookID = input.BookID
+	rental.UserID = input.UserID
+
+	db.Create(&rental)
+	return rental, nil
 }
 func (r *mutationResolver) CreateBook(ctx context.Context, input NewBook) (Book, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var book Book
+	book.Title = input.Title
+	book.IsFree = input.IsFree
+	book.Isbn = input.Isbn
+	book.Edition = input.Edition
+	book.DescriptionURL = input.DescriptionURL
+	book.AuthorID = input.AuthorID
+	book.LocationID = input.LocationID
+	book.OwnerID = input.OwnerID
+	book.PublisherID = input.PublisherID
+
+	db.Create(&book)
+	return book, nil
 }
 func (r *mutationResolver) CreateLocation(ctx context.Context, input *NewLocation) (Location, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var location Location
+	location.Building = input.Building
+	location.Room = input.Room
+
+	db.Create(&location)
+	return location, nil
 }
 func (r *mutationResolver) DeleteUser(ctx context.Context, user_id int) (int, error) {
 	panic("not implemented")
@@ -53,13 +81,22 @@ func (r *mutationResolver) DeletePublisher(ctx context.Context, publisher_id int
 	return publisher_id, nil
 }
 func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id int) (int, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var rental Rental
+	db.Where("rental_id = ?", rental_id).Delete(&rental)
+	return rental_id, nil
 }
 func (r *mutationResolver) DeleteBook(ctx context.Context, book_id int) (int, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var book Book
+	db.Where("rental_id = ?", book_id).Delete(&book)
+	return book_id, nil
 }
 func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) (int, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var location Location
+	db.Where("rental_id = ?", location_id).Delete(&location)
+	return location_id, nil
 }
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, input NewUser) (User, error) {
@@ -98,13 +135,25 @@ func (r *queryResolver) Publishers(ctx context.Context) ([]Publisher, error) {
 	//panic("not implemented")
 }
 func (r *queryResolver) Rentals(ctx context.Context) ([]Rental, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var rentals []Rental
+
+	db.Find(&rentals)
+	return rentals, nil
 }
 func (r *queryResolver) Books(ctx context.Context) ([]Book, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var books []Book
+
+	db.Find(&books)
+	return books, nil
 }
 func (r *queryResolver) Locations(ctx context.Context) ([]Location, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var locations []Location
+
+	db.Find(&locations)
+	return locations, nil
 }
 func (r *queryResolver) User(ctx context.Context, user_id int) (*User, error) {
 	panic("not implemented")
@@ -119,11 +168,20 @@ func (r *queryResolver) Publisher(ctx context.Context, publisher_id int) (*Publi
 	return &publisher, nil
 }
 func (r *queryResolver) Rental(ctx context.Context, rental_id int) (*Rental, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var rental Rental
+	db.Where("publisher_id = ?", rental_id).First(&rental)
+	return &rental, nil
 }
 func (r *queryResolver) Book(ctx context.Context, book_id int) (*Book, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var book Book
+	db.Where("publisher_id = ?", book_id).First(&book)
+	return &book, nil
 }
 func (r *queryResolver) Location(ctx context.Context, location_id int) (*Location, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var location Location
+	db.Where("publisher_id = ?", location_id).First(&location)
+	return &location, nil
 }
