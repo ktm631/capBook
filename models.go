@@ -17,8 +17,8 @@ type Book struct {
 	OwnerID        int    `gorm:"foreign_key";"owner_id"`
 	AuthorID       int    `gorm:"foreign_key";"author_id"`
 	PublisherID    int    `gorm:"foreign_key";"publisher_id"`
-	Title          int    `gorm:"title"`
-	Isbn           int    `gorm:"isbn"`
+	Title          string `gorm:"title"`
+	Isbn           string `gorm:"isbn"`
 	Edition        int    `gorm:"edition"`
 	IsFree         bool   `gorm:"is_free"`
 	DescriptionURL string `gorm:"description_url"`
