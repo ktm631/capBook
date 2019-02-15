@@ -27,8 +27,38 @@ type Location struct {
 	Room       string `json:"room"`
 }
 
+type NewAuthor struct {
+	Name    string `json:"name"`
+	Surname string `json:"surname"`
+}
+
+type NewBook struct {
+	LocationID     string `json:"locationID"`
+	OwnerID        string `json:"ownerID"`
+	AuthorID       string `json:"authorID"`
+	PublisherID    string `json:"publisherID"`
+	Title          string `json:"title"`
+	Isbn           string `json:"isbn"`
+	Edition        int    `json:"edition"`
+	IsFree         bool   `json:"is_free"`
+	DescriptionURL string `json:"description_url"`
+}
+
+type NewLocation struct {
+	Building string `json:"building"`
+	Room     string `json:"room"`
+}
+
 type NewPublisher struct {
 	Name string `json:"name"`
+}
+
+type NewRental struct {
+	BookID          string `json:"bookID"`
+	UserID          string `json:"userID"`
+	StartDate       string `json:"start_date"`
+	ExpectedEndDate string `json:"expected_end_date"`
+	EndDate         string `json:"end_date"`
 }
 
 type NewUser struct {
@@ -44,12 +74,12 @@ type Publisher struct {
 }
 
 type Rental struct {
-	RentalID        string  `json:"rental_id"`
-	Book            Book    `json:"book"`
-	User            User    `json:"user"`
-	StartDate       string  `json:"start_date"`
-	ExpectedEndDate string  `json:"expected_end_date"`
-	EndDate         *string `json:"end_date"`
+	RentalID        string `json:"rental_id"`
+	Book            Book   `json:"book"`
+	User            User   `json:"user"`
+	StartDate       string `json:"start_date"`
+	ExpectedEndDate string `json:"expected_end_date"`
+	EndDate         string `json:"end_date"`
 }
 
 type User struct {
