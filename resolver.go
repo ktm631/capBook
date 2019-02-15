@@ -97,13 +97,13 @@ func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id int) (int
 func (r *mutationResolver) DeleteBook(ctx context.Context, book_id int) (int, error) {
 	var db = database_config.DbConn()
 	var book Book
-	db.Where("rental_id = ?", book_id).Delete(&book)
+	db.Where("book_id = ?", book_id).Delete(&book)
 	return book_id, nil
 }
 func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) (int, error) {
 	var db = database_config.DbConn()
 	var location Location
-	db.Where("rental_id = ?", location_id).Delete(&location)
+	db.Where("location_id = ?", location_id).Delete(&location)
 	return location_id, nil
 }
 
@@ -188,18 +188,18 @@ func (r *queryResolver) Publisher(ctx context.Context, publisher_id int) (*Publi
 func (r *queryResolver) Rental(ctx context.Context, rental_id int) (*Rental, error) {
 	var db = database_config.DbConn()
 	var rental Rental
-	db.Where("publisher_id = ?", rental_id).First(&rental)
+	db.Where("rental_id = ?", rental_id).First(&rental)
 	return &rental, nil
 }
 func (r *queryResolver) Book(ctx context.Context, book_id int) (*Book, error) {
 	var db = database_config.DbConn()
 	var book Book
-	db.Where("publisher_id = ?", book_id).First(&book)
+	db.Where("book_id = ?", book_id).First(&book)
 	return &book, nil
 }
 func (r *queryResolver) Location(ctx context.Context, location_id int) (*Location, error) {
 	var db = database_config.DbConn()
 	var location Location
-	db.Where("publisher_id = ?", location_id).First(&location)
+	db.Where("location_id = ?", location_id).First(&location)
 	return &location, nil
 }
