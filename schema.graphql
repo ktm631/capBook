@@ -45,4 +45,16 @@ type Location {
     room: String!
 }
 
+input NewPublisher {
+    name: String!
+}
+
+type Mutation {
+    createPublisher(input: NewPublisher!): Publisher!
+}
+
+type Query {
+    publishers: [Publisher!]!
+}
+
 scalar Date

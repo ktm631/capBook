@@ -27,6 +27,10 @@ type Location struct {
 	Room       string `json:"room"`
 }
 
+type NewPublisher struct {
+	Name string `json:"name"`
+}
+
 type Publisher struct {
 	PublisherID string `json:"publisher_id"`
 	Name        string `json:"name"`
