@@ -1,0 +1,48 @@
+type User {
+    user_id: ID!
+    name: String!
+    surname: String!
+    email: String!
+    is_admin: Boolean!
+}
+
+type Author {
+    author_id: ID!
+    name: String!
+    surname: String!
+}
+
+type Publisher {
+    publisher_id: ID!
+    name: String!
+}
+
+type Rental {
+    rental_id: ID!
+    book: Book!
+    user: User!
+    start_date: Date!
+    expected_end_date: Date!
+    end_date: Date
+}
+
+type Book {
+    book_id: ID!
+    location: Location!
+    owner: User!
+    author: Author!
+    publisher: Publisher!
+    title: String!
+    isbn: String!
+    edition: Int!
+    is_free: Bool!
+    description_url: String!
+}
+
+type Location {
+    location_id: ID!
+    building: String!
+    room: String!
+}
+
+scalar Date
