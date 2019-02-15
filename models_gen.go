@@ -37,8 +37,9 @@ type NewRental struct {
 }
 
 type NewUser struct {
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
-	Email   string `json:"email"`
-	IsAdmin bool   `json:"is_admin"`
+	Name     string `json:"name"`
+	Surname  string `json:"surname"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	IsAdmin  bool   `json:"is_admin"`
 }

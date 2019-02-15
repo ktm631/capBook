@@ -77,12 +77,12 @@ type ComplexityRoot struct {
 		DeleteRental    func(childComplexity int, rental_id int) int
 		DeleteBook      func(childComplexity int, book_id int) int
 		DeleteLocation  func(childComplexity int, location_id int) int
-		UpdateUser      func(childComplexity int, input NewUser) int
-		UpdateAuthor    func(childComplexity int, input NewAuthor) int
-		UpdatePublisher func(childComplexity int, input NewPublisher) int
-		UpdateRental    func(childComplexity int, input NewRental) int
-		UpdateBook      func(childComplexity int, input NewBook) int
-		UpdateLocation  func(childComplexity int, input *NewLocation) int
+		UpdateUser      func(childComplexity int, input NewUser, user_id int) int
+		UpdateAuthor    func(childComplexity int, input NewAuthor, author_id int) int
+		UpdatePublisher func(childComplexity int, input NewPublisher, publisher_id int) int
+		UpdateRental    func(childComplexity int, input NewRental, rental_id int) int
+		UpdateBook      func(childComplexity int, input NewBook, book_id int) int
+		UpdateLocation  func(childComplexity int, input NewLocation, location_id int) int
 	}
 
 	Publisher struct {
@@ -137,12 +137,12 @@ type MutationResolver interface {
 	DeleteRental(ctx context.Context, rental_id int) (int, error)
 	DeleteBook(ctx context.Context, book_id int) (int, error)
 	DeleteLocation(ctx context.Context, location_id int) (int, error)
-	UpdateUser(ctx context.Context, input NewUser) (User, error)
-	UpdateAuthor(ctx context.Context, input NewAuthor) (Author, error)
-	UpdatePublisher(ctx context.Context, input NewPublisher) (Publisher, error)
-	UpdateRental(ctx context.Context, input NewRental) (Rental, error)
-	UpdateBook(ctx context.Context, input NewBook) (Book, error)
-	UpdateLocation(ctx context.Context, input *NewLocation) (Location, error)
+	UpdateUser(ctx context.Context, input NewUser, user_id int) (User, error)
+	UpdateAuthor(ctx context.Context, input NewAuthor, author_id int) (Author, error)
+	UpdatePublisher(ctx context.Context, input NewPublisher, publisher_id int) (Publisher, error)
+	UpdateRental(ctx context.Context, input NewRental, rental_id int) (Rental, error)
+	UpdateBook(ctx context.Context, input NewBook, book_id int) (Book, error)
+	UpdateLocation(ctx context.Context, input NewLocation, location_id int) (Location, error)
 }
 type QueryResolver interface {
 	Users(ctx context.Context) ([]User, error)
@@ -355,6 +355,15 @@ func field_Mutation_updateUser_args(rawArgs map[string]interface{}) (map[string]
 		}
 	}
 	args["input"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["user_id"]; ok {
+		var err error
+		arg1, err = graphql.UnmarshalInt(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["user_id"] = arg1
 	return args, nil
 
 }
@@ -370,6 +379,15 @@ func field_Mutation_updateAuthor_args(rawArgs map[string]interface{}) (map[strin
 		}
 	}
 	args["input"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["author_id"]; ok {
+		var err error
+		arg1, err = graphql.UnmarshalInt(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["author_id"] = arg1
 	return args, nil
 
 }
@@ -385,6 +403,15 @@ func field_Mutation_updatePublisher_args(rawArgs map[string]interface{}) (map[st
 		}
 	}
 	args["input"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["publisher_id"]; ok {
+		var err error
+		arg1, err = graphql.UnmarshalInt(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["publisher_id"] = arg1
 	return args, nil
 
 }
@@ -400,6 +427,15 @@ func field_Mutation_updateRental_args(rawArgs map[string]interface{}) (map[strin
 		}
 	}
 	args["input"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["rental_id"]; ok {
+		var err error
+		arg1, err = graphql.UnmarshalInt(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["rental_id"] = arg1
 	return args, nil
 
 }
@@ -415,26 +451,39 @@ func field_Mutation_updateBook_args(rawArgs map[string]interface{}) (map[string]
 		}
 	}
 	args["input"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["book_id"]; ok {
+		var err error
+		arg1, err = graphql.UnmarshalInt(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["book_id"] = arg1
 	return args, nil
 
 }
 
 func field_Mutation_updateLocation_args(rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	args := map[string]interface{}{}
-	var arg0 *NewLocation
+	var arg0 NewLocation
 	if tmp, ok := rawArgs["input"]; ok {
 		var err error
-		var ptr1 NewLocation
-		if tmp != nil {
-			ptr1, err = UnmarshalNewLocation(tmp)
-			arg0 = &ptr1
-		}
-
+		arg0, err = UnmarshalNewLocation(tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
 	args["input"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["location_id"]; ok {
+		var err error
+		arg1, err = graphql.UnmarshalInt(tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["location_id"] = arg1
 	return args, nil
 
 }
@@ -853,7 +902,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(NewUser)), true
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(NewUser), args["user_id"].(int)), true
 
 	case "Mutation.updateAuthor":
 		if e.complexity.Mutation.UpdateAuthor == nil {
@@ -865,7 +914,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateAuthor(childComplexity, args["input"].(NewAuthor)), true
+		return e.complexity.Mutation.UpdateAuthor(childComplexity, args["input"].(NewAuthor), args["author_id"].(int)), true
 
 	case "Mutation.updatePublisher":
 		if e.complexity.Mutation.UpdatePublisher == nil {
@@ -877,7 +926,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdatePublisher(childComplexity, args["input"].(NewPublisher)), true
+		return e.complexity.Mutation.UpdatePublisher(childComplexity, args["input"].(NewPublisher), args["publisher_id"].(int)), true
 
 	case "Mutation.updateRental":
 		if e.complexity.Mutation.UpdateRental == nil {
@@ -889,7 +938,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateRental(childComplexity, args["input"].(NewRental)), true
+		return e.complexity.Mutation.UpdateRental(childComplexity, args["input"].(NewRental), args["rental_id"].(int)), true
 
 	case "Mutation.updateBook":
 		if e.complexity.Mutation.UpdateBook == nil {
@@ -901,7 +950,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateBook(childComplexity, args["input"].(NewBook)), true
+		return e.complexity.Mutation.UpdateBook(childComplexity, args["input"].(NewBook), args["book_id"].(int)), true
 
 	case "Mutation.updateLocation":
 		if e.complexity.Mutation.UpdateLocation == nil {
@@ -913,7 +962,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateLocation(childComplexity, args["input"].(*NewLocation)), true
+		return e.complexity.Mutation.UpdateLocation(childComplexity, args["input"].(NewLocation), args["location_id"].(int)), true
 
 	case "Publisher.publisher_id":
 		if e.complexity.Publisher.PublisherId == nil {
@@ -2300,7 +2349,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateUser(rctx, args["input"].(NewUser))
+		return ec.resolvers.Mutation().UpdateUser(rctx, args["input"].(NewUser), args["user_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2334,7 +2383,7 @@ func (ec *executionContext) _Mutation_updateAuthor(ctx context.Context, field gr
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateAuthor(rctx, args["input"].(NewAuthor))
+		return ec.resolvers.Mutation().UpdateAuthor(rctx, args["input"].(NewAuthor), args["author_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2368,7 +2417,7 @@ func (ec *executionContext) _Mutation_updatePublisher(ctx context.Context, field
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdatePublisher(rctx, args["input"].(NewPublisher))
+		return ec.resolvers.Mutation().UpdatePublisher(rctx, args["input"].(NewPublisher), args["publisher_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2402,7 +2451,7 @@ func (ec *executionContext) _Mutation_updateRental(ctx context.Context, field gr
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateRental(rctx, args["input"].(NewRental))
+		return ec.resolvers.Mutation().UpdateRental(rctx, args["input"].(NewRental), args["rental_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2436,7 +2485,7 @@ func (ec *executionContext) _Mutation_updateBook(ctx context.Context, field grap
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateBook(rctx, args["input"].(NewBook))
+		return ec.resolvers.Mutation().UpdateBook(rctx, args["input"].(NewBook), args["book_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -2470,7 +2519,7 @@ func (ec *executionContext) _Mutation_updateLocation(ctx context.Context, field 
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateLocation(rctx, args["input"].(*NewLocation))
+		return ec.resolvers.Mutation().UpdateLocation(rctx, args["input"].(NewLocation), args["location_id"].(int))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -5409,6 +5458,12 @@ func UnmarshalNewUser(v interface{}) (NewUser, error) {
 			if err != nil {
 				return it, err
 			}
+		case "password":
+			var err error
+			it.Password, err = graphql.UnmarshalString(v)
+			if err != nil {
+				return it, err
+			}
 		case "is_admin":
 			var err error
 			it.IsAdmin, err = graphql.UnmarshalBoolean(v)
@@ -5503,6 +5558,7 @@ input NewUser {
     name: String!
     surname: String!
     email: String!
+    password: String!
     is_admin: Boolean!
 }
 
@@ -5555,12 +5611,12 @@ type Mutation {
     deleteBook(book_id: Int!): Int!
     deleteLocation(location_id: Int!): Int!
 
-    updateUser(input: NewUser!): User!
-    updateAuthor(input: NewAuthor!): Author!
-    updatePublisher(input: NewPublisher!): Publisher!
-    updateRental(input: NewRental!): Rental!
-    updateBook(input: NewBook!): Book!
-    updateLocation(input: NewLocation): Location!
+    updateUser(input: NewUser!, user_id: Int!): User!
+    updateAuthor(input: NewAuthor!, author_id: Int!): Author!
+    updatePublisher(input: NewPublisher!, publisher_id: Int!): Publisher!
+    updateRental(input: NewRental!, rental_id: Int!): Rental!
+    updateBook(input: NewBook!, book_id: Int!): Book!
+    updateLocation(input: NewLocation!, location_id: Int!): Location!
 }
 
 type Query {

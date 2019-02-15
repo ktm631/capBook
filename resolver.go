@@ -107,22 +107,28 @@ func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id int) 
 	return location_id, nil
 }
 
-func (r *mutationResolver) UpdateUser(ctx context.Context, input NewUser) (User, error) {
+func (r *mutationResolver) UpdateUser(ctx context.Context, input NewUser, user_id int) (User, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor) (Author, error) {
+func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor, author_id int) (Author, error) {
+	var db = database_config.DbConn()
+	var author Author
+	db.Where("author_id = ?", author_id).First(&author)
+	author.Surname = input.Surname
+	author.Name = input.Name
+	db.Save(&author)
+	return author, nil
+}
+func (r *mutationResolver) UpdatePublisher(ctx context.Context, input NewPublisher, publisher_id int) (Publisher, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) UpdatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
+func (r *mutationResolver) UpdateRental(ctx context.Context, input NewRental, rental_id int) (Rental, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) UpdateRental(ctx context.Context, input NewRental) (Rental, error) {
+func (r *mutationResolver) UpdateBook(ctx context.Context, input NewBook, book_id int) (Book, error) {
 	panic("not implemented")
 }
-func (r *mutationResolver) UpdateBook(ctx context.Context, input NewBook) (Book, error) {
-	panic("not implemented")
-}
-func (r *mutationResolver) UpdateLocation(ctx context.Context, input *NewLocation) (Location, error) {
+func (r *mutationResolver) UpdateLocation(ctx context.Context, input NewLocation, location_id int) (Location, error) {
 	panic("not implemented")
 }
 

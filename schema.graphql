@@ -50,6 +50,7 @@ input NewUser {
     name: String!
     surname: String!
     email: String!
+    password: String!
     is_admin: Boolean!
 }
 
@@ -102,12 +103,12 @@ type Mutation {
     deleteBook(book_id: Int!): Int!
     deleteLocation(location_id: Int!): Int!
 
-    updateUser(input: NewUser!): User!
-    updateAuthor(input: NewAuthor!): Author!
-    updatePublisher(input: NewPublisher!): Publisher!
-    updateRental(input: NewRental!): Rental!
-    updateBook(input: NewBook!): Book!
-    updateLocation(input: NewLocation): Location!
+    updateUser(input: NewUser!, user_id: Int!): User!
+    updateAuthor(input: NewAuthor!, author_id: Int!): Author!
+    updatePublisher(input: NewPublisher!, publisher_id: Int!): Publisher!
+    updateRental(input: NewRental!, rental_id: Int!): Rental!
+    updateBook(input: NewBook!, book_id: Int!): Book!
+    updateLocation(input: NewLocation!, location_id: Int!): Location!
 }
 
 type Query {
