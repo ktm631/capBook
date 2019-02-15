@@ -120,10 +120,25 @@ func (r *mutationResolver) UpdateAuthor(ctx context.Context, input NewAuthor, au
 	return author, nil
 }
 func (r *mutationResolver) UpdatePublisher(ctx context.Context, input NewPublisher, publisher_id int) (Publisher, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var publisher Publisher
+	db.Where("publisher_id = ?", publisher_id).First(&publisher)
+	publisher.Name = input.Name
+	db.Save(&publisher)
+	return publisher, nil
 }
 func (r *mutationResolver) UpdateRental(ctx context.Context, input NewRental, rental_id int) (Rental, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var rental Rental
+	db.Where("rental_id = ?", rental_id).First(&rental)
+	rental.UserID = input.UserID
+	rental.BookID = input.BookID
+	rental.ExpectedEndDate = input.ExpectedEndDate
+	rental.EndDate = input.EndDate
+	rental.StartDate = input.StartDate
+
+	db.Save(&rental)
+	return rental, nil
 }
 func (r *mutationResolver) UpdateBook(ctx context.Context, input NewBook, book_id int) (Book, error) {
 	panic("not implemented")
