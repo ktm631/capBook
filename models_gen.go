@@ -3,28 +3,28 @@
 package capBook
 
 type Author struct {
-	AuthorID *string `json:"author_id"`
-	Name     string  `json:"name"`
-	Surname  string  `json:"surname"`
+	AuthorID string `json:"author_id"`
+	Name     string `json:"name"`
+	Surname  string `json:"surname"`
 }
 
 type Book struct {
-	BookID         *string `json:"book_id"`
-	LocationID     string  `json:"location_id"`
-	OwnerID        string  `json:"owner_id"`
-	AuthorID       string  `json:"author_id"`
-	PublisherID    string  `json:"publisher_id"`
-	Title          string  `json:"title"`
-	Isbn           string  `json:"isbn"`
-	Edition        int     `json:"edition"`
-	IsFree         bool    `json:"is_free"`
-	DescriptionURL string  `json:"description_url"`
+	BookID         string `json:"book_id"`
+	LocationID     string `json:"location_id"`
+	OwnerID        string `json:"owner_id"`
+	AuthorID       string `json:"author_id"`
+	PublisherID    string `json:"publisher_id"`
+	Title          string `json:"title"`
+	Isbn           string `json:"isbn"`
+	Edition        int    `json:"edition"`
+	IsFree         bool   `json:"is_free"`
+	DescriptionURL string `json:"description_url"`
 }
 
 type Location struct {
-	LocationID *string `json:"location_id"`
-	Building   string  `json:"building"`
-	Room       string  `json:"room"`
+	LocationID string `json:"location_id"`
+	Building   string `json:"building"`
+	Room       string `json:"room"`
 }
 
 type NewAuthor struct {
@@ -75,24 +75,24 @@ type NewUser struct {
 }
 
 type Publisher struct {
-	PublisherID *string `json:"publisher_id"`
-	Name        string  `json:"name"`
+	PublisherID string `json:"publisher_id"`
+	Name        string `json:"name"`
 }
 
 type Rental struct {
-	RentalID        *string `json:"rental_id"`
-	BookID          string  `json:"book_id"`
-	UserID          string  `json:"user_id"`
-	StartDate       string  `json:"start_date"`
-	ExpectedEndDate string  `json:"expected_end_date"`
-	EndDate         string  `json:"end_date"`
+	RentalID        string `json:"rental_id"`
+	BookID          string `json:"book_id"`
+	UserID          string `json:"user_id"`
+	StartDate       string `json:"start_date"`
+	ExpectedEndDate string `json:"expected_end_date"`
+	EndDate         string `json:"end_date"`
 }
 
 type User struct {
-	UserID   *string `json:"user_id"`
-	Name     string  `json:"name"`
-	Surname  string  `json:"surname"`
-	Email    string  `json:"email"`
-	Password string  `json:"password"`
-	IsAdmin  bool    `json:"is_admin"`
+	UserID   string `json:"user_id"`
+	Name     string `json:"name"`
+	Surname  string `json:"surname"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	IsAdmin  bool   `json:"is_admin"`
 }

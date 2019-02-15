@@ -1,5 +1,5 @@
 type User {
-    user_id: ID
+    user_id: String!
     name: String!
     surname: String!
     email: String!
@@ -8,18 +8,18 @@ type User {
 }
 
 type Author {
-    author_id: ID
+    author_id: String!
     name: String!
     surname: String!
 }
 
 type Publisher {
-    publisher_id: ID
+    publisher_id: String!
     name: String!
 }
 
 type Rental {
-    rental_id: ID
+    rental_id: String!
     book_id: ID!
     user_id: ID!
     start_date: Date!
@@ -28,7 +28,7 @@ type Rental {
 }
 
 type Book {
-    book_id: ID
+    book_id: String!
     location_id: ID!
     owner_id: ID!
     author_id: ID!
@@ -41,7 +41,7 @@ type Book {
 }
 
 type Location {
-    location_id: ID
+    location_id: String!
     building: String!
     room: String!
 }

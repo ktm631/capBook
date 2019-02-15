@@ -1010,6 +1010,9 @@ func (ec *executionContext) _Author(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = graphql.MarshalString("Author")
 		case "author_id":
 			out.Values[i] = ec._Author_author_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "name":
 			out.Values[i] = ec._Author_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -1047,16 +1050,15 @@ func (ec *executionContext) _Author_author_id(ctx context.Context, field graphql
 		return obj.AuthorID, nil
 	})
 	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	if res == nil {
-		return graphql.Null
-	}
-	return graphql.MarshalID(*res)
+	return graphql.MarshalString(res)
 }
 
 // nolint: vetshadow
@@ -1129,6 +1131,9 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = graphql.MarshalString("Book")
 		case "book_id":
 			out.Values[i] = ec._Book_book_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "location_id":
 			out.Values[i] = ec._Book_location_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -1201,16 +1206,15 @@ func (ec *executionContext) _Book_book_id(ctx context.Context, field graphql.Col
 		return obj.BookID, nil
 	})
 	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	if res == nil {
-		return graphql.Null
-	}
-	return graphql.MarshalID(*res)
+	return graphql.MarshalString(res)
 }
 
 // nolint: vetshadow
@@ -1472,6 +1476,9 @@ func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet,
 			out.Values[i] = graphql.MarshalString("Location")
 		case "location_id":
 			out.Values[i] = ec._Location_location_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "building":
 			out.Values[i] = ec._Location_building(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -1509,16 +1516,15 @@ func (ec *executionContext) _Location_location_id(ctx context.Context, field gra
 		return obj.LocationID, nil
 	})
 	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	if res == nil {
-		return graphql.Null
-	}
-	return graphql.MarshalID(*res)
+	return graphql.MarshalString(res)
 }
 
 // nolint: vetshadow
@@ -2082,6 +2088,9 @@ func (ec *executionContext) _Publisher(ctx context.Context, sel ast.SelectionSet
 			out.Values[i] = graphql.MarshalString("Publisher")
 		case "publisher_id":
 			out.Values[i] = ec._Publisher_publisher_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "name":
 			out.Values[i] = ec._Publisher_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -2114,16 +2123,15 @@ func (ec *executionContext) _Publisher_publisher_id(ctx context.Context, field g
 		return obj.PublisherID, nil
 	})
 	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	if res == nil {
-		return graphql.Null
-	}
-	return graphql.MarshalID(*res)
+	return graphql.MarshalString(res)
 }
 
 // nolint: vetshadow
@@ -2927,6 +2935,9 @@ func (ec *executionContext) _Rental(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = graphql.MarshalString("Rental")
 		case "rental_id":
 			out.Values[i] = ec._Rental_rental_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "book_id":
 			out.Values[i] = ec._Rental_book_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -2979,16 +2990,15 @@ func (ec *executionContext) _Rental_rental_id(ctx context.Context, field graphql
 		return obj.RentalID, nil
 	})
 	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	if res == nil {
-		return graphql.Null
-	}
-	return graphql.MarshalID(*res)
+	return graphql.MarshalString(res)
 }
 
 // nolint: vetshadow
@@ -3142,6 +3152,9 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = graphql.MarshalString("User")
 		case "user_id":
 			out.Values[i] = ec._User_user_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalid = true
+			}
 		case "name":
 			out.Values[i] = ec._User_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -3194,16 +3207,15 @@ func (ec *executionContext) _User_user_id(ctx context.Context, field graphql.Col
 		return obj.UserID, nil
 	})
 	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-
-	if res == nil {
-		return graphql.Null
-	}
-	return graphql.MarshalID(*res)
+	return graphql.MarshalString(res)
 }
 
 // nolint: vetshadow
@@ -5063,7 +5075,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 
 var parsedSchema = gqlparser.MustLoadSchema(
 	&ast.Source{Name: "schema.graphql", Input: `type User {
-    user_id: ID
+    user_id: String!
     name: String!
     surname: String!
     email: String!
@@ -5072,18 +5084,18 @@ var parsedSchema = gqlparser.MustLoadSchema(
 }
 
 type Author {
-    author_id: ID
+    author_id: String!
     name: String!
     surname: String!
 }
 
 type Publisher {
-    publisher_id: ID
+    publisher_id: String!
     name: String!
 }
 
 type Rental {
-    rental_id: ID
+    rental_id: String!
     book_id: ID!
     user_id: ID!
     start_date: Date!
@@ -5092,7 +5104,7 @@ type Rental {
 }
 
 type Book {
-    book_id: ID
+    book_id: String!
     location_id: ID!
     owner_id: ID!
     author_id: ID!
@@ -5105,7 +5117,7 @@ type Book {
 }
 
 type Location {
-    location_id: ID
+    location_id: String!
     building: String!
     room: String!
 }
