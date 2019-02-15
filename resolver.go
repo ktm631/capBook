@@ -16,7 +16,13 @@ func (r *Resolver) Query() QueryResolver {
 
 type mutationResolver struct{ *Resolver }
 
-func (r *mutationResolver) CreatePublisher(c context.Context, input NewPublisher) (Publisher, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (User, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) CreateAuthor(ctx context.Context, input NewAuthor) (Author, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) CreatePublisher(ctx context.Context, input NewPublisher) (Publisher, error) {
 	var db = database_config.DbConn()
 	var publisher Publisher
 	publisher.Name = input.Name
@@ -27,10 +33,31 @@ func (r *mutationResolver) CreatePublisher(c context.Context, input NewPublisher
 	//c.JSON(200, publisher)
 	//panic("not implemented")
 }
-func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (User, error) {
+func (r *mutationResolver) CreateRental(ctx context.Context, input NewRental) (Rental, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) CreateBook(ctx context.Context, input NewBook) (Book, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) CreateLocation(ctx context.Context, input *NewLocation) (Location, error) {
 	panic("not implemented")
 }
 func (r *mutationResolver) DeleteUser(ctx context.Context, user_id string) (string, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) DeleteAuthor(ctx context.Context, author_id string) (string, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) DeletePublisher(ctx context.Context, publisher_id string) (string, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) DeleteRental(ctx context.Context, rental_id string) (string, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) DeleteBook(ctx context.Context, book_id string) (string, error) {
+	panic("not implemented")
+}
+func (r *mutationResolver) DeleteLocation(ctx context.Context, location_id string) (string, error) {
 	panic("not implemented")
 }
 
@@ -39,6 +66,36 @@ type queryResolver struct{ *Resolver }
 func (r *queryResolver) Users(ctx context.Context) ([]User, error) {
 	panic("not implemented")
 }
+func (r *queryResolver) Authors(ctx context.Context) ([]Author, error) {
+	panic("not implemented")
+}
 func (r *queryResolver) Publishers(ctx context.Context) ([]Publisher, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Rentals(ctx context.Context) ([]Rental, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Books(ctx context.Context) ([]Book, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Locations(ctx context.Context) ([]Location, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) User(ctx context.Context, user_id string) (*User, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Author(ctx context.Context, author_id string) (*Author, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Publisher(ctx context.Context, publisher_id string) (*Publisher, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Rental(ctx context.Context, rental_id string) (*Rental, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Book(ctx context.Context, book_id string) (*Book, error) {
+	panic("not implemented")
+}
+func (r *queryResolver) Location(ctx context.Context, location_id string) (*Location, error) {
 	panic("not implemented")
 }

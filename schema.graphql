@@ -87,14 +87,34 @@ input NewLocation {
 }
 
 type Mutation {
-    createPublisher(input: NewPublisher!): Publisher!
     createUser(input: NewUser!): User!
+    createAuthor(input: NewAuthor!): Author!
+    createPublisher(input: NewPublisher!): Publisher!
+    createRental(input: NewRental!): Rental!
+    createBook(input: NewBook!): Book!
+    createLocation(input: NewLocation): Location!
+
     deleteUser(user_id: ID!): ID!
+    deleteAuthor(author_id: ID!): ID!
+    deletePublisher(publisher_id: ID!): ID!
+    deleteRental(rental_id: ID!): ID!
+    deleteBook(book_id: ID!): ID!
+    deleteLocation(location_id: ID!): ID!
 }
 
 type Query {
     users: [User!]!
+    authors: [Author!]!
     publishers: [Publisher!]!
+    rentals: [Rental!]!
+    books: [Book!]!
+    locations: [Location!]!
+    user(user_id: ID!): User
+    author(author_id: ID!): Author
+    publisher(publisher_id: ID!): Publisher
+    rental(rental_id: ID!): Rental
+    book(book_id: ID!): Book
+    location(location_id: ID!): Location
 }
 
 scalar Date
