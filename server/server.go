@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-const defaultPort = "8080"
+const defaultPort = "7777"
 
 var db *gorm.DB
 

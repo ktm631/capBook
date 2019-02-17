@@ -1,9 +1,9 @@
 package database_config
 
 const (
-	DBUSER     = "user"
-	DBPASSWORD = "password"
-	DBHOST     = "ip"
-	DBPORT     = "port"
-	DBNAME     = "dbname"
+	DBUSER     = "root"
+	DBPASSWORD = "root"
+	DBHOST     = "localhost"
+	DBPORT     = "3306"
+	DBNAME     = "cap_book"
 )
