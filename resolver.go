@@ -188,7 +188,11 @@ func (r *mutationResolver) UpdateLocation(ctx context.Context, input NewLocation
 type queryResolver struct{ *Resolver }
 
 func (r *queryResolver) Users(ctx context.Context) ([]User, error) {
-	panic("not implemented")
+	var db = database_config.DbConn()
+	var users []User
+
+	db.Find(&users)
+	return users, nil
 }
 func (r *queryResolver) Authors(ctx context.Context) ([]Author, error) {
 	var db = database_config.DbConn()
@@ -203,7 +207,6 @@ func (r *queryResolver) Publishers(ctx context.Context) ([]Publisher, error) {
 
 	db.Find(&publishers)
 	return publishers, nil
-	//panic("not implemented")
 }
 func (r *queryResolver) Rentals(ctx context.Context) ([]Rental, error) {
 	var db = database_config.DbConn()
